@@ -1,0 +1,1 @@
+g++ -c -O2 -DSunOS -DSPARC -DULAW  obuffer.cc -o obuffer.o

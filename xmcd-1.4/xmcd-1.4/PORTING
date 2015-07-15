@@ -1,0 +1,495 @@
+#
+# @(#)PORTING	5.3 95/01/27
+#
+# xmcd  - Motif(tm) CD Audio Player
+# cda   - Command-line CD Audio Player
+# libdi - CD Audio Player Device Interface Library
+#
+# by Ti Kan
+#
+
+Porting Information
+-------------------
+
+
+INTRODUCTION
+
+A truly portable application should compile and run without modification
+on different OS and hardware platforms.  Any CD Audio player software,
+especially under UNIX, is typically not easily portable.  This is because
+of the two following reasons:
+
+    1. The CD player software is not merely an application.  It is
+       also a device driver of sorts, since it controls the CD-ROM
+       drive.  Different OS variants provide different means of
+       interfacing with the CD-ROM drives.
+
+    2. Although there is an increasing number of CD-ROM drives
+       that implement the audio-related commands as documented
+       in the SCSI-2 specifications, many non-SCSI-2 conformant
+       CD-ROM drives exist, and support audio operations only
+       via incompatible vendor-unique commands.  Moreover, there
+       are detail differences between "SCSI-2 compliant" drives
+       that must be taken into account in order to use them
+       effectively.  Finally, there are a number of non-SCSI CD-ROM
+       drives that operate via proprietary controller boards.
+
+Xmcd and cda strives to be as portable as possible by taking the
+following design approach:
+
+    1. For xmcd, harness the inherent portability advantages of the
+       X Window System, and the increasing popularity of the
+       OSF/Motif GUI.  The X Window System gives us device-independent
+       graphics and network-extensibility, and Motif is rapidly becoming
+       the de facto standard UNIX GUI, and will soon be supported
+       on virtually every vendor's port of UNIX as well as UNIX-like
+       operating systems.
+
+    2. For both xmcd and cda, minimize the use of non-portable
+       OS-specific features where possible.
+
+    3. Strict adherence to ANSI C standards.
+
+    4. Modularize the internals architecture, such that the user
+       interface portion, the OS-interface portion, and the CD-ROM
+       vendor-unique support portions are each a separate and
+       replaceable entity.
+
+    5. The OS-specific and device-specific portions are made as small
+       and self-contained as possible, so that changes to support
+       a new OS or new CD-ROM drive are not scattered about.
+
+Currently xmcd/cda already supports a wide array of CD-ROM drives
+and OS environments.  You are welcome to help expand that support,
+as others have done.  If you would like to add support of additional
+CD-ROM devices, port xmcd/cda to run on another OS, or to add other
+enhancements to xmcd/cda, the internal architecture overview below
+should prove to be beneficial.
+
+Xmcd and cda currently contain code that assumes POSIX-compliant
+UNIX C library and headers.  Examples of these are:
+
+	- Uses "struct dirent" rather than "struct direct"
+	- Assumes existence of types such as "uid_t" and "mode_t".
+	- etc...
+
+Also, cda assumes a System V compatible curses library implementation
+for its visual mode support.  Most systems today (even non-SYSV
+platforms) supply a compatible library (e.g., ncurses).  If the OS
+you're porting to does not support such a library, you can specify
+-DNOVISUAL in the cda.d/Imakefile to exclude cda's visual mode
+code.
+
+Please note that this application is released as free software under
+the GNU General License Agreement, which guarantees your right to
+modify it for yourself and others (please see the COPYING file for
+details).  I do ask, however, that if you add new functionality
+or port it to a new platform, please send all changes to me so I
+can merge it into the main source code and include it in the next
+release.  All proper credit will be given, of course, in the form of
+copyright notices in the source file banners.  This avoids diverging
+versions and makes your enhancements accessible to more people.
+
+
+
+XMCD/CDA ARCHITECTURE
+
+Xmcd and cda are divided into three main subsystems, the Application
+Code Subsystem, the Device Interface Subsystem and the Utility
+Routines Subsystem (These are hereafter referred to as ACS, LIBDI
+and LIBUTIL, respectively).
+
+The diagram below shows the general xmcd/cda architecture, and
+identifies where the various libraries (Motif, Xt, X11, socket,
+and the C library) interface with the main xmcd/cda bodies of code.
+
+
+			General Internal Architecture
+			-----------------------------
+
+                              User Interface
+  +-------------------------------------------------------------------------+
+  |                                                                         |
+  |                          Motif (xmcd only)                              |
+  |                                                                         |
+  |   +----------------+----------------------------------------------------+
+  |   |  Xt            |                                                    |
+  |   |  Intrinsics    |     Xmcd/cda Application Code Subsystem (ACS)      |
+  |   |  (xmcd only)   |                                                    |
+  |   | +--------------+             +---------------------------+----------+
+  |   | |   X11        |             |                           |          |
+  |   | |   (xmcd only)|             |                           |          |
+  |   | |              |             |                           |          |
+  |   | | +------------+             | Xmcd/cda Device Interface | Utility  |
+  |   | | | socket/nsl |             | Subsystem (LIBDI)         | Functions|
+  |   | | |            |             |                           | (LIBUTIL)|
+  |   | | |   +--------+             |                           |          |
+  |   | | |   | curses |             |                           |          |
+  |   | | |   | (cda   |             |                           |          |
+  |   | | |   |  only) |             |                           |          |
+  +---+-+-+---+--------+-------------+---------------------------+----------+
+  |                                                                         |
+  |                  C Library / System Calls                               |
+  |                                                                         |
+  +-------------------------------------------------------------------------+
+                                OS Kernel
+
+
+
+The ACS is the layer that deals with the user interface.  In xmcd, it
+mostly uses Motif for that purpose.  It provides the look-and-feel of the
+application and manages all user events.  All calls and other references
+to the Motif and X window system are restricted to this module only.
+
+The LIBDI module interfaces the application code to the operating
+system environment and hardware.
+
+The LIBDI can be hardware and OS dependent.  The interface from the
+ACS layer to the LIBDI is very high-level, consisting of function
+calls like di_play_pause(), di_stop(), di_rew(), di_ff(),
+and so on (see libdi.h for the full list).  This gives the LIBDI a lot
+of flexibility in how to implement the actual functionalities.
+Furthermore, the LIBDI physically resides in a library archive.
+Although it is currently linked into xmcd statically, if the need
+arises it can be modified to be dynamically bound.
+
+LIBDI also relies on service routines in the ACS and LIBUTIL to carry
+out its functionality.  The ACS provides those functions that
+that cause changes on the user interface (display popup messages,
+change widget state, etc.), and LIBUTIL provides general service
+routines (perform byte-swapping, BCD to integer conversion, etc).
+This layer is hardware platform and OS independent and should require
+virtually no modifications to port to other environments.
+
+The LIBDI module that is supplied with this distribution implements
+two methods of controlling a CD-ROM drive:
+
+	0. SCSI pass-through method
+	1. SunOS/Linux ioctl method
+
+These method can coexist in a given xmcd/cda binary.  The actual
+method used is determined at run time via the deviceInterfaceMethod
+parameter, which is configured in the LIBDIR/xmcd/config/device.cfg
+file.  The entry points into LIBDI is the same regardless of the
+method used.  A LIBDI internal jump table (array of di_tbl_t) is
+used to select the appropriate method function for each CD audio
+operation.
+
+
+SCSI PASS-THROUGH METHOD
+
+The SCSI pass-through method module supplied is a conglomerate of
+a Generic SCSI pass-through sub-module (SCSIPT), an OS Interface
+sub-module (OS_XXX), and several Vendor-unique sub-modules (VU_XXX).
+These are illustrated in the diagram below.  This method module
+implements all the non-user-interface aspects of CD audio
+functionality and operates the CD-ROM drive by delivering SCSI
+commands directly to the CD-ROM drive via a kernel-supported SCSI
+pass-through interface.
+
+This distribution supplies several OS_XXX sub-modules, each
+supporting a different operating system platform; as well as a
+"demo" sub-module that provides a demo environment, but does not
+actually operate a real CD-ROM drive (a CD-ROM simulator is invoked
+instead, mimicking the behavior of a SCSI-2 CD-ROM drive).  Several
+VU_XXX sub-modules for Chinon, Hitachi, NEC, Pioneer, Sony and
+Toshiba CD-ROM drives are also supplied.  Only one OS Interface
+sub-module can be compiled in at a time (controlled by pre-processor
+directives), but multiple vendor-unique sub-modules can coexist.
+
+The SCSIPT sub-module contains all the basic non-OS-dependent code
+that implements delivering SCSI commands to a CD-ROM drive.  It
+relies on the next layer, the OS_XXX sub-module, to actually perform
+the SCSI command delivery.  The SCSIPT sub-module "knows" about the
+SCSI-2 set of audio-related commands, and sends these down to the
+OS_XXX layer.  Which SCSI-2 commands to send are user-configurable
+via device-dependent configuration files.  This is important because
+many CD-ROM drives support some, but not all of the SCSI-2 audio
+commands.  Alternatively, if so configured, the SCSI Pass-through
+module can call the VU_XXX sub-module to deliver non-SCSI-2
+vendor-unique commands to the CD-ROM drive.
+
+All entry points to the OS_XXX module are named in the form of
+pthru_xxx().  See below.
+
+The most important OS_XXX sub-module entry point is pthru_send(),
+which is used by the SCSIPT and VU_XXX sub-modules to deliver SCSI
+commands to the drive.  pthru_send() takes a number of arguments
+that are used to construct a SCSI CDB, among other things.  The
+SCSI CDB is actually allocated and filled in the OS_XXX sub-module,
+and delivered using the appropriate SCSI pass-through mechanism.
+
+
+
+			SCSI Pass-through Method Detail
+			-------------------------------
+
+                              User Interface
+  +-------------------------------------------------------------------------+
+  |                                                                         |
+  |                          Motif (xmcd only)                              |
+  |                                                                         |
+  |   +----------------+--------------------------------------------+-------+
+  |   |  Xt            |                                            |       |
+  |   |  Intrinsics    |  Xmcd/cda Application Code Subsystem (ACS) | Util  |
+  |   |  (xmcd only)   |                                            | Func  |
+  |   | +--------------+     +--------------------------------------+ (LIB- |
+  |   | | X11          |     |                                      |  UTIL)|
+  |   | | (xmcd only)  |     |     Generic SCSI Pass-through        |       |
+  |   | |              |     |     Module (SCSIPT)                  |       |
+  |   | | +------------+     |                                      |       |
+  |   | | | socket/nsl |     |   +-----------------+----------------+       |
+  |   | | |            |     |   |                 |                |       |
+  |   | | |   +--------+     |   | OS Interface    | CD-ROM         |       |
+  |   | | |   | curses |     |   | Module          | Vendor-unique  |       |
+  |   | | |   | (cda   |     |   | (OS_XXX)        | Modules        |       |
+  |   | | |   |  only) |     |   |                 | (VU_XXX)       |       |
+  +---+-+-+---+--------+-----+---+-----------------+----------------+-------+
+  |                                                                         |
+  |                  C Library / System Calls                               |
+  |                                                                         |
+  +-------------------------------------------------------------------------+
+                                OS Kernel
+
+
+
+LINUX IOCTL METHOD
+
+The SunOS/Linux ioctl method is intended primarily for use on Linux
+platforms which are equipped with non-SCSI CD-ROM drives operating
+via a proprietary interface card.  Although this method will also work
+with many SCSI CD-ROM drives on the Linux, SunOS 4.1.x (Solaris 1.x)
+and SunOS 5.x (Solaris 2.x) platforms, it offers less features than
+the SCSI pass-through method and is thus not recommended for SCSI drives.
+
+The SunOS/Linux ioctl method can also serve as a reference when porting
+xmcd/cda to an OS platform that does not support a SCSI pass-through
+interface.
+
+The SunOS/Linux ioctl method module has similar high-level operating
+code as the SCSI pass-through method, except it is monolithic and does
+not have sub-modules.  It operates the CD-ROM audio functions via ioctl
+interfaces to the SunOS and Linux CD-ROM driver.
+
+
+			SunOS/Linux Ioctl Method Detail
+			-------------------------------
+
+                              User Interface
+  +-------------------------------------------------------------------------+
+  |                                                                         |
+  |                          Motif (xmcd only)                              |
+  |                                                                         |
+  |   +----------------+----------------------------------------------------+
+  |   |  Xt            |                                                    |
+  |   |  Intrinsics    |     Xmcd/cda Application Code Subsystem (ACS)      |
+  |   |  (xmcd only)   |                                                    |
+  |   | +--------------+             +---------------------------+----------+
+  |   | | X11          |             |                           |          |
+  |   | | (xmcd only)  |             |                           |          |
+  |   | |              |             |                           |          |
+  |   | | +------------+             | SunOS/Linux Ioctl Method  | Utility  |
+  |   | | | socket/nsl |             | (SLIOC)                   | Functions|
+  |   | | |            |             |                           | (LIBUTIL)|
+  |   | | |   +--------+             |                           |          |
+  |   | | |   | curses |             |                           |          |
+  |   | | |   | (cda   |             |                           |          |
+  |   | | |   |  only) |             |                           |          |
+  +---+-+-+---+--------+-------------+---------------------------+----------+
+  |                                                                         |
+  |                  C Library / System Calls                               |
+  |                                                                         |
+  +-------------------------------------------------------------------------+
+                                OS Kernel
+
+
+
+XMCD/CDA SOURCE CODE FILES
+
+The following is a list of the files in the xmcd/cda source code
+distribution and the category they fall under:
+
+General Release files:
+	BUGS
+	CHANGES
+	COPYING
+	INSTALL
+	PORTING
+	README
+	Imakefile
+	Makefile.std
+	make.inc
+	makedgux.inc
+
+LIBUTIL and other common files:
+	common.d/Imakefile
+	common.d/Makefile.std
+	common.d/appenv.h
+	common.d/patchlevel.h
+	common.d/util.c
+	common.d/util.h
+
+LIBDI files:
+	libdi.d/Imakefile
+	libdi.d/Makefile.std
+	libdi.d/libdi.c
+	libdi.d/libdi.h
+	libdi.d/configure.sh
+	libdi.d/common.cfg
+	libdi.d/device.cfg
+	libdi.d/cfgtbl/XXX
+
+	SCSI pass-through method files:
+		libdi.d/scsipt.c
+		libdi.d/scsipt.h
+		libdi.d/os_XXX.c
+		libdi.d/os_XXX.h
+		libdi.d/vu_XXX.c
+		libdi.d/vu_XXX.h
+
+	SunOS/Linux ioctl method files:
+		libdi.d/lxioc.c
+		libdi.d/lxioc.h
+
+ACS for cda:
+	cda.d/Imakefile
+	cda.d/Makefile.std
+	cda.d/cda.c
+	cda.d/cda.h
+	cda.d/visual.c
+	cda.d/visual.h
+	cda.d/cda.man
+
+ACS for xmcd:
+	xmcd.d/Imakefile
+	xmcd.d/Makefile.std
+	xmcd.d/XKeysymDB
+	xmcd.d/XMcd.ad
+	xmcd.d/cdfunc.c
+	xmcd.d/cdfunc.h
+	xmcd.d/dbprog.c
+	xmcd.d/dbprog.h
+	xmcd.d/geom.c
+	xmcd.d/geom.h
+	xmcd.d/help.c
+	xmcd.d/help.h
+	xmcd.d/hotkey.c
+	xmcd.d/hotkey.h
+	xmcd.d/main.c
+	xmcd.d/resource.h
+	xmcd.d/widget.c
+	xmcd.d/widget.h
+	xmcd.d/xmcd.h
+	xmcd.d/xmcd.man
+	xmcd.d/bitmaps/*
+	xmcd.d/hlpfiles/*
+
+Miscellaneous utilities and files:
+	misc.d/BINLIST
+	misc.d/SRCLIST
+	misc.d/makerel.sh
+	misc.d/makeshar.sh
+	misc.d/makesrc.sh
+	misc.d/demo.db
+
+Workman-to-Xmcd CD database converter utility:
+	wm2xmcd.d/Imakefile
+	wm2xmcd.d/Makefile.std
+	wm2xmcd.d/wm2xmcd.c
+	wm2xmcd.d/wm2xmcd.man
+
+
+
+PORTING HINTS
+
+To port xmcd/cda to a different OS, two alternatives can be
+considered:
+
+1. Use the existing SCSI pass-through method, but write a new
+   OS_XXX sub-module.
+2. Write a whole new method module.
+
+The first choice is the obvious answer if the target OS supports a
+SCSI pass-through interface.  This choice is also quite easy to
+implement, as the OS_XXX sub-module is typically fairly small
+and self-contained.  The existing OS_XXX sub-modules can be used
+as a reference when writing a new one.  In the current implementation,
+each SCSI pass-through OS_XXX sub-module must contains these four
+routines:
+
+	pthru_send()
+	pthru_open()
+	pthru_close()
+	pthru_vers()
+
+The second choice is feasible if the platform does not supply a
+SCSI pass-through mechanism, or if non-SCSI drives are to be used.
+If this is the approach taken, the SunOS/Linux ioctl method module
+can be used as a reference, and much of its code can be copied,
+modified and re-used.
+
+If you are writing an SCSI pass-through OS_XXX sub-module, keep in
+mind that you will need to deal with any special DMA address
+alignment limitations present in your OS and/or hardware.  The I/O
+data buffers allocated within the existing SCSI pass-through method
+are guaranteed to be 32-bit word-aligned, but if your OS/hardware
+has different requirements (such as page-alignment) then you will
+need to deal with this in the OS interface sub-module.
+
+For maximum portability, please use the bswapxx() and lswapxx()
+routines provided in util.c (#include "common.d/util.h") to
+perform byte swapping, whenever multi-byte quantities (that must
+be interpreted as a value) are being transferred between the CD-ROM
+drive and the host.  This is necessary because multi-byte
+quantities in SCSI commands and data is in general big-endian,
+but xmcd/cda is designed to run on host CPUs that are big-endian
+or little-endian.  The swap routines should be used regarless of
+whether your main CPU endianess matches that of the SCSI device.
+Whether swapping actually takes place is controlled via the
+_BYTE_ORDER_ #define (see common.d/appenv.h).
+
+There are also some minor OS-specific code you need to add in
+configure.sh.  This is mainly to set up the correct default device
+node path name and mailer program.
+
+
+
+ADDING SUPPORT OF NON-SCSI-2 CD-ROMS
+
+To support additional SCSI (not SCSI-2) CD-ROM drives via vendor-
+unique pass-through commands, you will need to add a VU_XXX sub-module
+to the SCSI pass-through method.  Each VU_XXX sub-module can implement
+some or all of the following routines (where xx is the name of the
+VU_XXX module):
+
+	xx_playaudio()
+	xx_pause_resume()
+	xx_start_stop()
+	xx_get_playstatus()
+	xx_volume()
+	xx_route()
+	xx_mute()
+	xx_get_toc()
+	xx_eject()
+	xx_start()
+	xx_halt()
+
+These routines, if implemented, is then registered in the xx_init()
+routine by filling in the appropriate vu_tbl_t array entry (see
+scsipt.[ch] and the existing VU_XXX sub-modules for examples).
+
+Depending upon the operating mode of xmcd, vendor-unique functionality
+is invoked from the scsipt.c module via the vu_tbl_t jump table.
+
+You will also need to add a vendor-unique configuration file entry 
+to the libdi.d/cfgtbl subdirectory.
+
+
+
+QUESTIONS?
+
+If you are working on enhancing xmcd/cda and need information, help
+or advice, please send e-mail to me at "ti@amb.org".  Likewise,
+suggestions are also very welcome.
+
+

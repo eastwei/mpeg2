@@ -1,0 +1,4 @@
+NOTE: bloop_3_system.mps was encoded using 
+
+system encode ../video/bloop_3_basic.mpg 0 ../audio/bloop_3_audio.mpg 1
+

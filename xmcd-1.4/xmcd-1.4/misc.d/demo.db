@@ -1,0 +1,46 @@
+# xmcd 1.4 CD database file
+# Copyright (C) 1995 Ti Kan
+# @(#)demo.db	5.2 94/12/28
+#
+# Track frame offsets:
+#	150
+#	4500
+#	9000
+#	13500
+#	18000
+#	22500
+#	27000
+#	31500
+#	36000
+#	40500
+#
+# Disc length: 600 seconds
+#
+DISCID=4102560a
+DTITLE=Xmcd Demo / Live or Mesmerize?
+TTITLE0=Virtual Reality
+TTITLE1=Woodgrain On Your Country Squire
+TTITLE2=Here Comes The Imposter
+TTITLE3=Let's Pretend
+TTITLE4=Going Through The Song And Dance
+TTITLE5=I Love Imitation Crab Meat
+TTITLE6=The Cubic Zirconia Of The Nile
+TTITLE7=Fake It Good
+TTITLE8=The Parrot Sings
+TTITLE9=Onomatopoeia
+EXTD=1995 XMCD Version 1.4\n\nProduced by AMB Research Labs\n\nThis is th
+EXTD=e internal "Test CD" of the CD-ROM Simulator,\nused in the demo-o
+EXTD=nly version of Xmcd.  There are 10\ntracks on this simulated disc
+EXTD=, each track is 1 minute\nlong, and has 4 indices of 15 seconds e
+EXTD=ach.
+EXTT0=Background vocals by The Silent Screams
+EXTT1=Courtesy of Formica Records
+EXTT2=Is Elvis Really Alive?
+EXTT3=... And Play Video Games Instead
+EXTT4=And The Motions of Love...
+EXTT5=Eat it!  Courtesy of Weird Al Yankovich
+EXTT6=Do You Know The Way To Fry's Electronics in\nCampbell, CA?
+EXTT7=Courtesy of Devo
+EXTT8=Mirror, Mirror, On The Wall...
+EXTT9=Say What?
+PLAYORDER=2,4,6,8,10,1,3,5,7,9

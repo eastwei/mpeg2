@@ -1,0 +1,89 @@
+#
+# @(#)CheckBox	5.2 94/12/28
+#
+#   xmcd - Motif(tm) CD Audio Player
+#
+#   Copyright (C) 1995  Ti Kan
+#   E-mail: ti@amb.org
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#
+Mode Selector Check Box
+
+There are four toggle buttons in the Mode Selector
+check box, described as follows:
+
+- Display Mode Selector
+
+   This button allows you to configure the Xmcd main
+   window push-buttons to either display a pictorial
+   symbol on their button-faces representing the
+   function, or to display text titles.
+
+   In Text Title mode, an underscore is shown below the
+   letter representing the short-cut key that can be used
+   to select the push-button.  If the specified short-cut
+   key does not work, try using the Shift, Ctrl, Alt or
+   Meta modifier keys in combination with the indicated
+   key.
+
+- Caddy Lock Selector
+
+   This button allows you to lock and unlock the CD caddy
+   when a disc is loaded.  When locked, a disc cannot be
+   ejected by pressing the Eject button on the CD-ROM
+   drive itself.  This is useful to prevent someone from
+   inadvertently ejecting the disc.
+
+   The Eject button on the Xmcd main window will still
+   function normally even when the caddy is locked.
+
+   This feature may not function on certain CD-ROM
+   drives, notably those that do not use a motorized
+   eject mechanism.
+
+- Repeat Mode Selector
+
+   This button allows you to enable or disable the
+   Repeat mode. When Repeat mode is enabled, Xmcd will
+   do the following:
+
+  * If normal playback is finished, Repeat mode will
+    cause the playback to commence again.
+  * If Shuffle playback is finished, Repeat mode will
+    cause a new shuffle sequence to be generated and
+    played.
+  * If Program playback is finished, Repeat mode will
+    play the program again.
+
+   The repeat operation will continue indefinitely until
+   the Repeat mode is disabled by selecting this button.
+
+   To repeat a single track, enter it as the only track
+   in a play program and start program playback with
+   Repeat mode enabled.
+
+- Shuffle Mode Selector
+
+   This button allows you to enable or disable the Shuffle
+   mode. When Shuffle mode is enabled, Xmcd will play all
+   the tracks on the CD in non-repeating random order.
+
+   You can enable Shuffle mode only when audio playback is
+   not already in progress.  Also, Shuffle mode will
+   automatically disengage when you enter Program Play
+   mode or specify a track using the Keypad window.
+

@@ -1,0 +1,464 @@
+.\"
+.\" @(#)cda.man	5.6 95/01/30
+.\"
+.\"   cda - Command-line CD Audio Player
+.\"
+.\"   Copyright (C) 1995  Ti Kan
+.\"   E-mail: ti@amb.org
+.\"
+.\"   This program is free software; you can redistribute it and/or modify
+.\"   it under the terms of the GNU General Public License as published by
+.\"   the Free Software Foundation; either version 2 of the License, or
+.\"   (at your option) any later version.
+.\"
+.\"   This program is distributed in the hope that it will be useful,
+.\"   but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"   GNU General Public License for more details.
+.\"
+.\"   You should have received a copy of the GNU General Public License
+.\"   along with this program; if not, write to the Free Software
+.\"   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+.\"
+.TH CDA 1 "29 January 1995" "v1.4"
+
+.SH "NAME"
+cda \- Compact disc digital audio player utility
+
+.SH "SYNOPSIS"
+.B cda
+.nh
+[-\fIdev\fP device] [-\fIdebug\fP] \fIcommand\fP
+
+.SH "DESCRIPTION"
+.I Cda
+is a program that allows the use of the CD-ROM drive as
+a full-featured stereo compact-disc player from the
+shell command line.  It can be used interactively in line
+mode or visual (screen) mode, or as a script-driven utility.
+This is a companion utility to
+.I xmcd,
+a Motif-based CD audio player application
+for the X window system.
+.I Cda
+uses the same configuration and support files as
+.I xmcd.
+.PP
+Most of the features found on real CD players are available in
+.I cda,
+such as shuffle and repeat, and track programming functions.
+.PP
+A built-in CD database feature allows the CD artist/title and
+track titles, and other associated general purpose text to be
+displayed as the program is started or when a CD is inserted.
+No capability is provided to update the CD database via
+.I cda.
+You must use the X-based
+.I xmcd(1)
+utility to add or modify CD database entries.
+.PP
+On systems with more than one CD-ROM drive, multiple invocations of
+.I cda
+can be used to operate each drive independently.
+.PP
+.I Cda
+is designed to be easy to use, with particular care taken
+to make all output easily parsable by other programs.
+.PP
+The internal architecture of
+.I cda
+is designed to be easily portable to many UNIX operating
+system variants, and adaptable to the myriad of CD-ROM drives
+available.
+
+.SH "OPTIONS"
+.I Cda
+supports the following options:
+.TP
+.I \-dev\ device
+Specifies the path name to the raw CD-ROM device.  If this option is
+not used, the default device to be used is the first
+drive set up with the
+.I xmcd
+configuration program (See below).
+.TP
+.I \-debug
+Causes verbose debugging diagnostics to be printed on \fIstderr\fR.
+Not that if you are running in visual mode, the stderr output should
+be redirected to a file, or the debug information will corrupt the
+screen.
+
+.SH "COMMANDS"
+.I Cda
+supports the following commands:
+.TP
+.I on
+Start the
+.I cda
+daemon.
+.TP
+.I off
+Terminate the
+.I cda
+daemon.
+.TP
+.I disc <load | eject>
+Load or eject the CD.
+.TP
+.I lock <on | off>
+Enable/disable the CD disc lock.  When locked, the CD cannot be
+ejected using the CD-ROM front-panel eject button.
+.TP
+.I play [track# [mm:ss]]
+Start playback.  If the
+.I track#
+is used, the playback starts from the specified track.  The optional
+.I mm:ss
+argument specifies the minutes and seconds offset into
+the track from where to start playback.
+.TP
+.I pause
+Pauses the playback.  Use \fBcda play\fP to resume playback.
+.TP
+.I stop
+Stop the plaback.
+.TP
+.I track <prev | next>
+Proceed to the previous or the next track.  This command is only
+valid when playback is already in progress.
+.TP
+.I index <prev | next>
+Proceed to the previous or the next index.  This command is only
+valid when playback is already in progress.
+.TP
+.I program [clear | track# ...]
+If no argument is specified, this command displays the current
+program play sequence, if any.  The \fBclear\fP argument will
+cause the current program to be cleared.  To define a new program,
+specify a list of track numbers separated by spaces.  To start
+program play, use the \fBplay\fP command.  You cannot define
+a new program while shuffle mode is enabled.
+.TP
+.I shuffle <on | off>
+Enable/disable shuffle play mode.  When shuffle is enabled,
+.I cda
+will play the CD tracks in a random order.  You can use this
+command only when audio playback is not in progress.  Also,
+you must clear any program sequence before enabling shuffle.
+.TP
+.I repeat <on | off>
+Enable/disable the repeat mode.
+.TP
+.I volume [value#]
+If no argument is specified, this command displays the current
+audio volume setting.  If a
+.I value
+is used, then the audio volume level is set to the specified
+value.  The valid range is 0 to 100.
+.TP
+.I balance [value#]
+If no argument is specified, this command displays the current
+balance control setting.  If a
+.I value
+is used, then the balance is set to the specified value.
+The valid range is 0 to 100, where 0 is full left, 50 is
+center and 100 is full right.
+.TP
+.I route [value#]
+If no argument is specified, this command displays the current
+channel routing setting.  If a
+.I value
+is used, then the routing is set to the specified value.
+The valid range is 0 to 4, as specified below:
+.sp
+.nf
+0	Normal stereo
+1	Reverse stereo
+2	Mono-L
+3	Mono-R
+4	Mono-L+R
+.fi
+.TP
+.I status [cont [secs#]]
+Display the current disc status, track number, index number,
+time, modes, and repeat count.  If the \fBcont\fP argument
+is specified, then the display will run continuously until the
+user types the interrupt character (typically \fIDelete\fP or
+\fICtrl-C\fP).  The optional \fBsecs\fP sub-argument is the
+display update time interval.  The default is 1 second.
+.TP
+.I toc [offsets]
+Display the CD Table of Contents.  The disc artist/title
+and track titles from the CD database
+associated with the current disc is also
+shown, if available.  If the \fBoffsets\fP argument is used,
+then the track times are the absolute offsets from the start
+of the CD.  Otherwise, the times shown are the track lengths.
+.TP
+.I extinfo [track#]
+Display the disc extended information text associated with
+the current CD, if available from the CD database.  If the
+CD is currently playing, then the track extended information
+associated with the playing track is also displayed.  If a
+track number is used in the argument, then the track extended
+information text of the specified track is shown instead.
+.TP
+.I device
+Displays the CD-ROM and device information.
+.TP
+.I version
+Displays the
+.I cda
+version and copyright information.
+.TP
+.I visual
+Enter an interactive, screen-oriented visual mode.  All
+other cda commands can also be invoked within this mode.
+
+.SH "DEVICE CONFIGURATION"
+See
+.I xmcd(1)
+for a description of the device configuration requirements.
+.PP
+.B WARNING:
+If
+.I cda
+is not correctly configured, you may cause
+.I cda
+to deliver commands that are not supported by your CD-ROM drive.
+Under some environments this may lead to system hang or crash.
+
+.SH "USING CDA"
+Before using any function of the
+.I cda
+utility, you must first ensure that the XMCD_LIBDIR environment
+variable is properly set (see ENVIRONMENT below).  This variable
+is optional in
+.I xmcd
+but is required for
+.I cda.
+.PP
+Start the
+.I cda daemon
+with the \fBcda on\fP command (or the F1 (o) function in visual mode).
+This reserves the CD-ROM device and initializes the program for
+further commands.  All other
+.I cda
+functions will not work unless the
+.I cda daemon
+is running.
+The other
+.I cda
+commands should be self explanatory.
+.PP
+The \fBoff\fP command (or the F1 (o) function in visual mode)
+can be used to terminate the
+.I cda daemon
+and release the CD-ROM drive for use by other software.
+
+.SH "VISUAL MODE"
+If the
+.I cda visual
+command is used, it enters a screen-oriented visual mode.
+In this mode, the status and other information available
+is continuously displayed and updated on the screen, and
+virtually all functions are available via a single key stroke.
+.PP
+A minimum screen size of 80 columns by 24 rows is recommended
+for the visual mode.
+.PP
+Visual mode uses the curses screen library to control the screen.
+It is essential that the TERM environment variable reflect the current
+terminal type, which ideally should have 8 (or more) function keys.
+Since function key definitions in terminfo descriptions are often
+unreliable, alphabetic key alternatives are also available.
+.PP
+The screen is divided into two windows: an information window and a
+status window.  According to context, the information window displays
+a help screen, device and version information, disc information and
+table of contents, or track extended information.  This window is
+scrollable if it overflows its allotted screen area.
+The status window consists of the last few lines of the screen,
+enclosed in a box.  The first line contains the program list, or
+track number and offset together with volume, balance and stereo/mono
+information.  The remaining lines contain the function keys
+(with their alphabetic synonymns) and the functions they invoke.
+These functions are highlighted when they are on, making
+it easy to see the current state.
+.PP
+Screen annotation and online help make operation self explanatory,
+but for reference, a list of commands follows. Alphabetic key
+alternatives to function keys are given in parenthesis.
+.TP
+.I ?
+Display help screen. Dismiss this screen by pressing the space bar.
+.TP
+.I F1 (o)
+On/Off. Start or stop the
+.I cda
+daemon.
+.TP
+.I F2 (j)
+Load or eject the CD.
+.TP
+.I F3 (p)
+Play, pause or unpause.
+.TP
+.I F4 (s)
+Stop.
+.TP
+.I F5 (k)
+Enable/disable the CD caddy lock. When locked, the CD cannot be ejected
+using the CD-ROM front-panel eject button.
+.TP
+.I F6 (u)
+Shuffle/Program.  Pressing this key cycles through three states:
+normal, shuffle and program. In shuffle mode, the tracks of the CD
+will be played in random order.  On entering program mode,
+.I cda
+will prompt for a space or comma separated list of track numbers,
+representing a desired playing order. The list should be terminated by
+carriage return.  An empty list returns
+.I cda
+to normal mode.  Shuffle and program mode cannot be engaged
+unless a CD is loaded but not playing or paused.
+.TP
+.I F7 (e)
+Enable/disable repeat mode.
+.TP
+.I F8 (q)
+Terminate the visual mode.  If the
+.I cda
+daemon is running, a reminder of the fact is given and it is allowed to
+continue.  The CD-ROM drive will continue in the same state.
+.I Cda
+may be invoked again in either visual or line mode when required.
+.TP
+.I Cursor left/right (C/c)
+Previous/next track. This is only valid if playback is already in
+progress.
+.TP
+.I </>
+Proceed to the previous/next index mark. This is only valid if
+playback is already in progress.
+.TP
+.I Cursor up/down (^/v)
+Scroll the information portion of the screen up or down. It may be
+scrolled up only until the last line is on the top line of the screen,
+and may not be scrolled down beyond the initial position. The initial
+scroll position is restored when different information is displayed,
+(e.g., when switching to or from the help information).
+.TP
+.I +/-
+Increase or decrease volume by 5%.
+.TP
+.I l/r
+Move balance 5% to left or right.
+.TP
+.I Tab
+Successive depressions of this key change the mode from stereo to mono,
+mono right, mono left, reverse stereo, and back to normal stereo.
+.TP
+.I <n> [mins secs]
+Proceed to track
+.I n
+at
+.I mins
+minutes and
+.I secs
+seconds from the start. If
+.I "mins secs"
+is not given, start at the beginning of track
+.I n.
+.TP
+.I ^l/^r
+Control-l or control-r repaints the screen.  This is useful if the
+screen has been corrupted (e.g., by operator messages sent
+by the
+.I wall(1M)
+command).
+
+.SH "CD DATABASE"
+The CD Database feature of
+.I xmcd
+is supported by
+.I cda,
+which allows you to display the disc artists/title,
+track titles, and extended information about the CD
+or tracks via the \fBtoc\fP or \fBextinfo\fP commands of
+.I cda.
+In visual mode, this information is displayed automatically
+if available.  You cannot update the CD database via
+.I cda.
+.I Xmcd
+must be used for that purpose.
+
+.SH "ENVIRONMENT"
+Several environment variables are currently recognized by
+.I cda,
+and are described as follows:
+.IP \fBXMCD_LIBDIR\fR
+This is a \fIrequired\fP parameter which specifies
+the directory path under which
+.I cda's
+configuration files and CD database files are located.
+On most systems this is \fI/usr/lib/X11/xmcd\fP.
+.IP \fBXMCD_DBPATH\fR
+This is used to override the \fIdbdirs\fP common configuration
+parameter, which is a list of CD database category directories
+to be used under \fBXMCDLIB\fI/cddb\fR.  See
+.I xmcd(1)
+for details.
+
+.SH "NOTES"
+Not all CD-ROM drives support all features that appear on
+.I cda.
+For example, most SCSI-1 drives do not support a software-driven
+volume control.  On these drives the
+.I cda
+\fBvolume\fP and \fBbalance\fP commands may have no effect, or may
+simply change the volume between full mute and maximum.
+Similarly, the \fBlock\fP, \fBdisc\fP, \fBindex\fP,
+and \fBroute\fP commands of
+.I cda
+may not have any effect on drives that
+do not support the appropriate functionality.
+
+.SH "FILES"
+$HOME/.xmcdcfg/\(**
+.br
+XMCDLIB/cddb/\(**
+.br
+XMCDLIB/config/configure.sh
+.br
+XMCDLIB/config/common.cfg
+.br
+XMCDLIB/config/device.cfg
+.br
+XMCDLIB/config/.tbl/\(**
+.br
+XMCDLIB/config/\(**
+.br
+XMCDLIB/help/\(**
+.br
+BINDIR/cda
+.br
+MANDIR/cda.1
+.br
+/tmp/.cdaudio/\(**
+
+.SH "SEE ALSO"
+xmcd(1), wm2xmcd(1), X(1).
+
+.SH "AUTHOR"
+Ti Kan (\fIti@amb.org\fR)
+.br
+AMB Research Laboratories, Sunnyvale, CA, U.S.A.
+.PP
+.I Cda
+also contains code contributed by several dedicated individuals.
+See the README file in the
+.I cda
+distribution for information.
+.PP
+Comments, suggestions, and bug reports are always welcome.

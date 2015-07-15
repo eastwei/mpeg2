@@ -1,0 +1,114 @@
+/*
+ * @(#)Imakefile	5.3 95/01/22
+ *
+ * Imakefile for xmcd
+ *
+ *	xmcd - Motif(tm) CD Audio Player
+ *
+ *   Copyright (C) 1995  Ti Kan
+ *   E-mail: ti@amb.org
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ */
+
+/*
+ * If your local X configuration supports Motif correctly, the
+ * following LOCAL_LIBRARIES= declaration should work just fine.
+ * If it fails, try uncommenting the #include lines below.  If that
+ * still fails, then substitute the LOCAL_LIBRARIES= line with
+ * one of the these:
+ *
+ * LOCAL_LIBRARIES= $(XMLIB) $(XTOOLLIB) $(XLIB)
+ *
+ * or,
+ *
+ * LOCAL_LIBRARIES= -lXm -lXt -lX11
+ *
+ */
+
+/*
+ * #include "Motif.tmpl"
+ * #include "Motif.rules"
+ */
+LOCAL_LIBRARIES= XmClientLibs
+
+
+/**** Optional defines:  Change as you see fit. *****************************
+ *
+ * -DBSDCOMPAT
+ *	Compiling under BSD-derived or BSD-like OS
+ *
+ * -DNO_STDLIB_H
+ *	The system does not support <stdlib.h>
+ *
+ * -DUSE_SYMLINK
+ *	Use symbolic links instead of hard links in the CD database
+ *	to implement the LINK feature (see the xmcd man page).
+ *
+ * -DEDITRES
+ *	Enable editres(1) support.  This feature is only effective
+ *	when compiling under X11R5 or later.
+ */
+#if defined(SYSTYPE_BSD43) || defined(BSD43) || defined(BSD) || \
+    defined(__FreeBSD__) || defined(OsfArchitecture) || \
+    (defined(SunArchitecture) && OSMajorVersion == 4)
+DEFINES= -DBSDCOMPAT
+#else
+DEFINES=
+#endif
+
+
+/*
+ * Add local include path
+ */
+INCLUDES=-I..
+
+
+/*
+ * C Source files
+ */
+SRCS=	cdfunc.c \
+	dbprog.c \
+	geom.c \
+	help.c \
+	hotkey.c \
+	main.c \
+	widget.c
+
+/*
+ * Objects
+ */
+OBJS=	cdfunc.o \
+	dbprog.o \
+	geom.o \
+	help.o \
+	hotkey.o \
+	main.o \
+	widget.o \
+	../common.d/libutil.a \
+	../libdi.d/libdi.a
+
+
+/*
+ * Build rule for the main module
+ */
+#ifdef InstallProgram
+#undef InstallProgram
+#define InstallProgram(program, dest)
+#endif
+ComplexProgramTarget(xmcd)
+
+

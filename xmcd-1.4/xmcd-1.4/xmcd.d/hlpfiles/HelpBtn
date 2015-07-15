@@ -1,0 +1,111 @@
+#
+# @(#)HelpBtn	5.2 94/12/28
+#
+#   xmcd - Motif(tm) CD Audio Player
+#
+#   Copyright (C) 1995  Ti Kan
+#   E-mail: ti@amb.org
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#
+Help Button
+
+Quick help:
+------------------------------------------
+On-line help is available for all Xmcd pushbuttons,
+controls, indicators, text entry areas, and selection
+lists.  To obtain help, position your pointer cursor
+over any Xmcd feature, and click the pointer button 3.
+A pop-up help window will appear containing help text
+pertaining to the item.
+------------------------------------------
+
+The following is an overview of some of the general
+features and capabilities of Xmcd:
+
+Xmcd is an application for the X Window System,
+developed using the OSF/Motif toolkit.  It is a player
+of digital audio compact discs utilizing the CD-ROM
+drives connected to your computer.  The audio
+line-output on your CD-ROM drive can be connected
+directly to an external amplifier and speakers, or to
+a sound board with a built-in mixer and amplifier.
+Many CD-ROM drives also have a headphone jack and
+volume control on the front panel.
+
+Xmcd does not control a sound board, thus the mixer on
+a sound board must be operated via a separate
+application.
+
+Xmcd is a full-featured CD audio utility, offering
+virtually every feature that is found on standalone
+"real" component stereo CD players, plus many others
+not easily implementable (or usable) on such a player.
+The following is a list of features supported by Xmcd:
+
+- Standard audio functions: Stop, Play, Pause, Previous
+   Track, Next Track, Previous Index, Next Index,
+   Rewind and Fast forward searching with audio sample,
+   Eject and On/off.
+- Direct track access keypad and track-warp slider
+   controls.
+- Volume control with selectable taper characteristics.
+- Balance control.
+- Channel routing control: Select between normal stereo,
+   reversed stereo, mono-L, mono-R, or mono-L+R.
+- Track/Index/Time display: Selectable to display elapsed
+   time, remaining track time, or remaining disc time.
+- Status display: for current play status, A->B mode,
+   program mode, CD database.
+- Shuffle (random) play function.
+- Repeat function with iteration counter.
+- Sample function: Play a few seconds of each track.
+- A->B function: Repeat from selectable point A and B.
+- Eject inhibit function: To prevent someone from ejecting
+   the disc by pressing the button on the drive.
+- Automation options on CD load, eject, play completion and
+   program exit.
+- Track Program function: Play tracks in custom order.
+- CD database function: Allows you to store CD title/track
+   titles in database, and associate each disc with a
+   play program.  Displays the current playing disc title/
+   track information.  In addition, you can enter and display
+   arbitrary text associated with the disc or each track,
+   such as band information, lyrics, etc.
+- CD database entry send: Contribute CD database entries
+   to a central archive via Internet electronic mail.
+- Main window button face labels can be configured to
+   display pictorial symbols, or text with hotkey
+   mnemonics.
+- The complete application can be operated via the
+   keyboard with full support for keyboard traversal and
+   hotkeys.
+- All labels and messages can be customized to non-
+   English languages via X resources in the .Xdefaults
+   file.
+- All colors and many other functionality are user-
+   customizable using X resource settings.
+- On-line help information.
+- Device-specific configuration files to make xmcd
+   adaptable to various brands of CD-ROM drives.
+
+
+Xmcd undergoes continuous development and is being
+ported to new operating system environments.  Your
+suggestions are appreciated.  Please e-mail all feedback
+to the author at the following Internet e-mail address:
+
+   ti@amb.org

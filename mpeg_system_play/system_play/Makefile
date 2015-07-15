@@ -1,0 +1,42 @@
+
+CC= gcc
+
+#LINUX
+#CFLAGS= -O -DLINUX  
+#LIBS=  -lXm -lXt -lX11 
+
+#SPARCIPX with AMD audio device -8KHz ULAW(mistaken as SPARC1PX)
+CFLAGS= -O -DSPARC1PX  
+LIBS=  -lXm -lXt -lX11 
+
+#SGI
+#CFLAGS= -O -DINDIGO  
+#LIBS=-lXm -lXt -lX11 -laudio
+
+OFILES = system.o audio.o demux.o sp_creat.o sp_call.o sp_help.o bxutil-c.o ulaw.o
+CFILES = system.c audio.c demux.c sp_creat.c sp_call.c sp_help.c bxutil-c.c ulaw.c
+RM  = rm -f
+
+# User-specified options:
+
+
+
+all: system_play
+
+system_play: $(OFILES)
+	$(CC) $(CFLAGS) $(OFILES) $(LIBS) -o $@
+
+ocodecenter: 
+	#load $(CFLAGS) $(OFILES) $(LIBS)
+
+codecenter: 
+	#load $(CFLAGS) $(CFILES) $(LIBS)
+
+clean:
+	$(RM) $(OFILES) system_play
+
+
+
+
+
+

@@ -1,0 +1,110 @@
+.\"
+.\"   @(#)wm2xmcd.man	5.3 94/12/28
+.\"
+.\"   wm2xmcd - Workman-to-Xmcd CD database file converter
+.\"
+.\"   Copyright (C) 1995  Ti Kan
+.\"   E-mail: ti@amb.org
+.\"
+.\"   This program is free software; you can redistribute it and/or modify
+.\"   it under the terms of the GNU General Public License as published by
+.\"   the Free Software Foundation; either version 2 of the License, or
+.\"   (at your option) any later version.
+.\"
+.\"   This program is distributed in the hope that it will be useful,
+.\"   but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"   GNU General Public License for more details.
+.\"
+.\"   You should have received a copy of the GNU General Public License
+.\"   along with this program; if not, write to the Free Software
+.\"   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+.\"
+.TH WM2XMCD 1 "1 January 1995" "v1.0"
+
+.SH "NAME"
+wm2xmcd \- workman-to-xmcd CD database file converter
+
+.SH "SYNOPSIS"
+.B wm2xmcd
+.nh
+[-\fIv\fP n] [-\fId\fP outdir] [-\fIc\fP] \fIworkmandb\fP ...
+
+.SH "DESCRIPTION"
+Similar in function to
+.I xmcd,
+.I workman
+is a CD audio player utility for the X window system, but
+uses the XView/Open Look interface.
+.I Wm2xmcd
+is a simple program that converts
+.I workman
+CD database files to the
+.I xmcd
+format.  A specified
+.I workman
+CD database file is used as input
+and Xmcd CD database files are generated.
+
+.SH "OPTIONS"
+.I Wm2xmcd
+supports the following options:
+.TP
+.I \-v\ n
+Specifies level of verbosity of output diagnostics.  Currently the
+levels 0 through 3 are supported.  Level 0 is the "quietest" whereas
+level 3 generates lots of messages.
+.TP
+.I \-d\ outdir
+Specifies the output directory.  The default is
+.B cddb
+under the current directory.  If the
+.I \-c
+option is also specified, then subdirectories under
+.I outdir
+will be created.
+.TP
+.I \-c
+With this option,
+.I wm2xmcd
+will prompt the user to type a category name for each CD entry
+to be converted.  Each category will be a subdirectory under the
+output directory.
+
+.SH "NOTES"
+.I Workman
+uses a complex multi-line track title description scheme,
+whereas
+.I xmcd
+uses a simple list of single-line titles.  Xmcd has flexible
+free-form text fields associated with the CD as well as each track.
+.I Wm2xmcd
+currently expands the multi-line
+.I workman
+track entries into
+a format that fits the
+.I xmcd
+list, but does not use the free-form text fields.
+.PP
+Some
+.I workman
+database keywords are ignored by this utility, notably
+those that correspond to
+.I workman
+features that are irrelevant in
+.I xmcd.
+
+.SH "SEE ALSO"
+xmcd(1), cda(1).
+
+.SH "AUTHOR"
+Ti Kan (\fIti@amb.org\fR)
+.br
+AMB Research Laboratories, Sunnyvale, CA, U.S.A.
+.PP
+Comments, suggestions, and bug reports are always welcome.
+.PP
+Inquiries about
+.I workman
+should be directed to its author,
+Steve Grimm (\fIkoreth@hyperion.com\fR).

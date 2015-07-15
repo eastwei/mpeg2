@@ -1,0 +1,344 @@
+#
+# @(#)CHANGES	5.2.1 95/03/27
+#
+# xmcd  - Motif(tm) CD Audio Player
+# cda   - Command-line CD Audio Player
+# libdi - CD Audio Player Device Interface Library
+#
+# by Ti Kan
+#
+
+Change history:
+===============
+
+
+Ver 1.4 patchlevel 2 released Mon Mar 27 08:19:58 PST 1995
+----------------------------------------------------------
+CD-ROM Support changes:
+    - Corrected a problem with the Sony CDU-55E ATAPI CD-ROM
+      drive support on the Linux platform.
+
+
+Ver 1.4 patchlevel 1 released Thu Feb 16 08:14:02 PST 1995
+----------------------------------------------------------
+OS Support changes:
+    - Corrected a minor problem with the FreeBSD platform support.
+
+
+Ver 1.4 released Sun Feb 12 20:54:01 PST 1995
+---------------------------------------------
+CD-ROM drive support changes:
+    - Added support for the Chinon CDx-525, DEC RRD44, NEC CDR-210P,
+      Plextor PX-43CS/PX-45CS, Sony CDU-55S and Toshiba XM-3501
+      SCSI CD-ROM drives.
+    - On the Linux platforms only, added support for the Mitsumi
+      FX001, LU005S, NEC CDR-260, CDR-260R, Panasonic/Matsushita/Kotobuki
+      CR-521, CR-562, CR-563, and Sony CDU-31A, CDU-33A and CDU-55E
+      CD-ROM drives.  These are non-SCSI drives using a proprietary
+      interface card, sound card or an IDE/EIDE/ATAPI interface.
+      Xmcd/cda must be configured to run using the SunOS/Linux ioctl
+      method to use these (rather than SCSI pass-through).  Also,
+      the appropriate driver support must be configured in the kernel.
+    - On SCSI-2 drives, the IMMED bit in the Start Stop Unit
+      SCSI command CDB is now set.  This causes the CD ejects
+      command to complete immediately, avoiding command time-out
+      situations on some platforms.
+    - When ejectOnExit was set, the CD wasn't being ejected when the
+      program quits (on certain SCSI-1 CD-ROM drives only).  This is
+      now fixed.
+    - The version number of the LIBDIR/xmcd/config/.cfgtbl/* files
+      have been bumped to 2.  A new field is added to these files
+      to configure the new noTURWhenPlaying parameter in device.cfg.
+
+OS Support changes:
+    - Add support for the FreeBSD (version 2.1 or later) platform.
+      See the README file for special notes about the kernel and
+      SCSI driver configuration.
+    - The configure.sh script was not properly setting the MAILCMD
+      variable on some OS platforms.  Fixed.
+    - Added a SunOS/Linux ioctl method module to libdi.  This is
+      primarily used to support non-SCSI CD-ROM drives using a
+      proprietary interface card under Linux.  Although this method
+      can be used with SCSI CD-ROM drives under Linux, SunOS 4.1.x,
+      and Solaris 2.x platforms, it is recommended that the SCSI
+      pass-through method be used instead.
+    - Fixed a problem with the volume slider not being properly
+      initialized on the DEC OSF/1 and Motorola SVR4/m88k platforms.
+    - The configure.sh script no longer rejects a device node path
+      that doesn't exist on the Solaris 2.x platform with the
+      Solaris Volume Manager.
+
+Misc changes:
+    - Enhanced the libdi design such that multiple CD-ROM controlling
+      methods can be implemented and coexist.  The original support for
+      SCSI pass-through is now an instance of a method.  This change
+      involves adding another jump table for all libdi functions
+      to branch control to the appropriate method.  The device.cfg
+      file now has a new deviceInterfaceMethod parameter that
+      configures the actual method to use.  See the PORTING file
+      for details.
+    - The cda utility now supports a "visual" mode that turns cda
+      into a screen-oriented (curses-based) CD player.
+    - Implemented work-around to avoid hitting a bug in some versions
+      of Motif-1.2.  The symptom was a xmcd crash when the
+      CDDB/Program subwindow is closed.
+    - The xmcd CDDB/Program window Track List now highlights
+      the appropriate entry when a track title is being edited in
+      the Track Title Editor box, even if a track is not explicitly
+      selected.  Also, the Track List now automatically scrolls down
+      as tracks titles are entered.
+    - Xmcd now displays an error message if a CDDB Save operation
+      fails due to a full filesystem.
+    - The dbdir parameter in common.cfg and the XMCD_DBPATH environment
+      variables now support tilde-expansion (e.g., ~/somepath or
+      ~someuser/somepath is now handled correctly).
+    - Xmcd and cda now creates a directory /tmp/.cdaudio.  All
+      lock files, fifo nodes, and other temporary files are created
+      and deleted under that directory (instead of directly in /tmp).
+      This is because many platforms set the sticky bit in the
+      /tmp directory permissions, making it cumbersome for xmcd/cda to
+      maintain lock files (one user's xmcd process should be able to
+      delete another's lock file if the other process has exited).
+    - The misc.d/makesrc.sh and misc.d/makerel.sh scripts have been
+      further enhanced to print informative messages, and these now
+      work correctly on systems with a limited command line length.
+    - Removed the BUGS file and added the FAQ file.
+    - Added the "reggae" and "folk" categories to the standard
+      CD database.
+    - Other enhancements and cleanups.
+
+
+Ver 1.3 released Fri Sep 30 12:32:10 PDT 1994
+---------------------------------------------
+CD-ROM drive support changes:
+    - Added support for the DEC RRD43 CD-ROM drive.
+
+OS Support changes:
+    - IBM AIX 4.x is now supported.
+    - Fixed a misplaced line in libdi.d/configure.sh that caused
+      the default device node path to be set wrong under the IBM AIX
+      and DEC OSF/1 environments.
+    - Added improved instructions for DG/UX, and corrected the default
+      CD-ROM device node path in configure.sh.
+    - The configure.sh script now will set up the XMcd*cddbMailCmd
+      parameter as well, based on the OS variant.
+    - The configure.sh now prompts the user before creating any
+      X library symbolic links from non-standard locations to /usr/lib
+      on SVR4 systems.
+
+Misc changes:
+    - Added an xmcd Options sub-window which allows run-time toggle
+      of many of the feature options in the device.cfg file.  The
+      Options window also includes a Channel Routing selector, a
+      Volume Control Taper selector and a stereo Balance slider
+      control (these can be used on CD-ROM drives that has the
+      appropriate capabilities).
+    - Added a Track Warp feature in the xmcd Keypad subwindow.  This
+      allows fast searches to any part of a track using a slider.
+      In conjunction with the keypad, this allows very easy access
+      to any arbitrary CD location.  A similar feature is added to
+      cda, where the "cda play" command now accepts an optional
+      mm:ss offset argument if a track number is also specified.
+    - Added a new Repeat Count Indicator in the xmcd main window
+      display area.  This shows the number of iteration completed
+      when playing audio with the Repeat mode enabled.  Likewise,
+      a Repeat Count field is added to the "cda status" output.
+    - Added support for the following cda commands: "balance"
+      to set the stereo channel balance, and "route" to set the
+      channel routing.
+    - The Disc ID indicator in the xmcd CDDB/Program window now
+      displays the CD category as well as the disc ID number.
+      Likewise, the "cda toc" command now displays the category
+      under the "Disc ID" heading as well.
+    - The xmcd database Link feature CD list now displays the
+      average track offset difference between the current CD and
+      each potential database match.  Those entries that are
+      within 10 seconds are now listed with bold font.  This
+      enhancement is based on code contributed by Andreas Zins
+      (zins@forwiss.uni-erlangen.de).
+    - Fixed a bug which causes xmcd to generate an X protocol error
+      if the XMcd*cddbMailCmd resource is improperly set and the
+      Send button is used.
+    - The XMcd*cddbMailCmd resource now uses %S, %A and %F to denote
+      the mail subject, mail address and CD database file path,
+      respectively.  This makes it easier to configure xmcd to work
+      with different mailers.
+    - Fixed a bug where the track list display in the CDDB subwindow
+      was being duplicated when a disc which is not in the database
+      is inserted and ejected.
+    - Fixed a typo in the xmcd.d/cfgtbl/Pioneer file which caused
+      Pioneer not to appear in the xmcd configure.sh menu.
+    - Increased the string buffer used in common_parminit() in
+      xmcd.d/cdfunc.c so that longer CD database directory paths
+      can be accommodated.
+    - The "caddyLock" parameter is now in device.cfg instead of
+      common.cfg.  Thus, it is now configurable on a per-device
+      basis.
+    - Added the balanceControlSupport, channelRouteSupport and
+      channelRoute parameters to device.cfg.  Enhanced the configure.sh
+      script to set up these parameters based on CD-ROM drive brand
+      and model.
+    - Fixed libdi.d/configure.sh to not put a backslash in the
+      app-defaults/XMcd file (it was writing "XMcd\*libdir:", but
+      it should be "XMcd*libdir:").
+    - Added support for editres(1) in xmcd.  The code is enabled if
+      compiled with -DEDITRES in the xmcd.d directory under X11R5 or
+      later.  This feature is contributed by Andreas Zins
+      (zins@forwiss.uni-erlangen.de).
+    - The "cda status cont" command now supports a sub-argument
+      "secs" to allow the user to specify the display update time
+      interval in seconds.  The default is now 1 second.
+    - The "cda extinfo" command now always displays the disc extended
+      info, then followed by the track extended info of the currently
+      playing track, if any.  If "cda extinfo track#" is specified,
+      then the specified track extended info is displayed instead.
+    - The xmcd/cda -debug option was ineffective if the user has a
+      $HOME/.xmcdcfg/common.cfg file with the debugMode parameter
+      set to False.  This is now fixed.
+    - Added "blues" and "country" to the default CD categories list.
+    - If using the GNU C compiler (gcc), it is no longer required
+      to specify the -fwritable-strings option.
+    - Other enhancements and cleanups.
+
+
+Ver 1.2 released Wed Jul 27 12:34:29 PDT 1994
+---------------------------------------------
+CD-ROM drive support changes:
+    - Fixed to really work with the Chinon CD-43x drives.
+    - Add support for the Plextor 4Plex and the NEC CDR-900 (4xPro).
+
+OS Support changes:
+    - Add support for Apple A/UX, Data General DG/UX and Stratus
+      FTX SVR4/PA-RISC platforms.
+    - Enhancements to the DEC OSF/1 and Ultrix error handling.
+    - On Solaris 2.x platforms, added support for the -c, -X and
+      -o options for full compatibility with the Solaris Volume
+      Manager auto-start feature using the action_workman.so
+      program.
+
+Misc changes:
+    - Major source code tree re-organization into subdirectories.
+    - "Makefile.std" files are added to the source code distribution.
+      These can be used to build the source code on systems that do
+      not have imake.
+    - Added a new utility "cda" to the distribution.  This is a
+      command-line driven (non-X) audio CD player.  The command
+      interface makes it ideal as a script-driven player.
+    - A new "Send" button is added to the xmcd CDDB/Program window.
+      This allows users to send the CD database entry of the currently
+      loaded CD to the xmcd CD database archive site.
+    - The "Play Program" button in the CDDB/Program window has been
+      deleted.  The main window "Play/Pause" button is used to
+      start program playback instead.  This change also involves a
+      few other minor program-mode related behavioral changes.
+    - Many common configuration parameters have been moved from
+      XMcd.ad into the new common.cfg file.
+    - The device-specific configuration file has been renamed from
+      dev.config to device.cfg.
+    - Added two new device-specific parameters that can be set to
+      suit user preferences: "playOnLoad" determines whether xmcd
+      will auto-play a CD after loading, and "ejectOnDone" determines
+      whether xmcd will automatically eject the CD after it's done
+      playing.
+    - The CD now does not spin down between tracks when using the
+      prev-track or next-track buttons in shuffle and program modes.
+    - Xmcd (and cda) no longer silently ignore the error if the
+      common or device-specific configuration file cannot be opened.
+    - Fixed a few obscure problems involving the use of various
+      xmcd controls when the player is in shuffle or program mode
+      and the playback is paused.
+    - If a CD has multiple links in the database, xmcd no longer
+      displays duplicate lines in the Link Selector list menu.
+      Also, the list menu sorting is now case-insensitive.
+    - All window sizes have been reduced to conserve screen space.
+    - The XMcd*mainShowTrackTitle, XMcd*mainShowDiscTitle and
+      XMcd*cddbTimeShowLength X resources have been removed.  The
+      built-in behavior is equivalent to setting these to True.
+    - The install.sh and configure.sh scripts now have error message
+      logging capability.
+    - A new makeshar.sh script is added to the distribution that
+      makes shar format xmcd source code releases.
+    - Security improvements: the uid and gid settings are forced to
+      their original settings regardless of whether SETUID_ROOT is
+      defined.
+    - Other enhancements and cleanups.
+
+
+Ver 1.1 released Fri Feb 25 18:40:36 PST 1994
+---------------------------------------------
+CD-ROM drive support changes:
+    - Add support for more SCSI-2 CD-ROM drives from Chinon, Hitachi,
+      NEC, Pioneer, Procom, Sony and Toshiba.
+    - Added support for Apple, Chinon and Sony SCSI-1 CD-ROM drives
+      operating using vendor-unique commands.
+    - Fixed problems in the Pioneer vendor-unique support code.
+    - Drive-specific configuration data (previously hard coded in
+      configure.sh) is now looked up in table files under the
+      LIBDIR/xmcd/config/.tbl directory.
+    - On SCSI-2 drives, the REW, FF and Sample operations will now use
+      Play Audio MSF command by default, if the playAudioMSFSupport
+      parameter is True.  In xmcd-1.0, these operations were supported
+      only with the Play Audio(10) or Play Audio (12) commands.
+    - A new curposFormat device-specific parameter is added to
+      specify whether the CD-ROM drive supports Data Format 1 (CD-ROM
+      Current Position) of the Read Subchannel SCSI-2 command.
+    - The volumeControlSetDBD device-specific parameter is renamed to
+      modeSenseSetDBD.
+
+OS Support changes:
+    - Added support for DEC Ultrix and OSF/1 on DECstations and DEC
+      Alpha AXP.
+    - Added support for Linux on Intel x86 platforms.
+    - Added support for IBM AIX on the RS/6000.
+    - Added support for SGI IRIX on SGI workstations.
+    - HP-UX specific code is now conditionally compiled via
+      #ifdef __hpux instead of #ifdef hpux.  This is because the HP cc
+      compiler pre-defines the former but not the latter in ANSI mode
+      (-Ae).
+    - Changed a "struct inquiry_data" to "struct inqry_data" in
+      di_scsipt.h to avoid conflict with "union inquiry_data" in HP-UX's
+      <sys/scsi.h>.
+    - Support for Solaris 2.x platforms is improved.  Added code to
+      coexist with the Solaris Volume Manager.
+    - The configure.sh script has been improved such that on SVR4
+      systems, it will attempt to create symlinks of shared library
+      files to /usr/lib even if LIBDIR is set to a non-standard
+      location.
+    - Fixed to avoid a core dump in cd_untimeout() on some 64-bit
+      systems.
+
+Misc changes:
+    - Source file names were changed to better illustrate their function.
+    - Reordered a few stack structure declarations to fix alignment
+      issues on some platforms.  This fixes a core dump and other
+      failures when doing FF and REW operations on those systems.
+    - Improved CD database files permissions handling.
+    - Added a -debug command line option.  When used, xmcd will generate
+      verbose diagnostics about the commands it sends and the data it
+      receives from the CD-ROM drive.
+    - Added XMcd.mainShowDiscTitle and XMcd.mainShowTrackTitle X
+      application resources.  When set to True, these will cause xmcd
+      to display the artist/disc title and currently playing track title
+      in the main window display area, respectively.  The default
+      settings for these are True.  For those who prefer the simpler
+      appearance of xmcd-1.0, you can set either or both of these
+      resources to False.
+    - Added XMcd.cddbTimeShowLength X application resource.  When set
+      to True, the default CDDB Track List time display mode will be
+      "track lengths" instead of "track offsets".
+    - A new exitOnEject device-specific parameter is added which, if
+      set to True, causes xmcd to exit when a CD is ejected.  Likewise,
+      the new closeOnEject parameter causes xmcd to close the device on
+      eject, and re-open when the CD is re-loaded.
+    - The CD database disc ID is now shown on the CDDB window.
+    - A watch cursor is now displayed when xmcd is doing CD database
+      file I/O.
+    - A wm2xmcd utility is now included in the xmcd distribution that
+      converts WorkMan CD database files to xmcd format.
+    - Other enhancements and cleanups.
+
+
+Ver 1.0 released Mon Nov 08 11:02:00 PST 1993
+---------------------------------------------
+    - Initial general availability.
+

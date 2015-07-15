@@ -1,0 +1,35 @@
+************************************************************
+*  MPEG-I MULTI-STREAM SYSTEM-LAYER ENCODER/DECODER PAIR   *
+************************************************************
+Developed by 
+
+James Boucher(jboucher@flash.bu.edu)
+Ziv Yaar(zyaar@bu.edu)             
+Elisa Rubin(erubin@acs.bu.edu)     
+John Palmer(palmerj@acs.bu.edu)    
+                                   
+Multimedia Communications Lab      
+Boston University                  
+mcl@spiderman.bu.edu                   
+
+TO DO
+
+We ported this code to the three platforms available to us with audio
+devices. Please let us know if you wish to port or have ported the
+code.
+
+The audio mixer does not provide perfectly mixed audio output to avoid
+possible deadlocks with the demultiplexer.  This shortfall will be
+addressed in the next version.
+
+Several improvements to the realtime video player can and will be
+realized in future versions.
+
+Possible removal of the MOTIF requirement.
+
+KNOWN BUGS:
+
+The video player may give an ASSERT FAILED error if you are playing a
+stream FAR FAR beyond your platform's capabilities. This is being
+addressed.
+

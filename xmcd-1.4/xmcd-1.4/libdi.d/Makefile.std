@@ -1,0 +1,90 @@
+#
+#   @(#)Makefile.std	5.3 94/12/28
+#
+#   Imakefile for libdi
+#
+#	libdi - CD Audio Player Device Interface Library
+#
+#   NOTE: You should use this only if you don't have imake!
+#
+#   Copyright (C) 1995  Ti Kan
+#   E-mail: ti@amb.org
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+
+include ../make.inc
+
+#
+# See the comments in Imakefile about the items
+# in the DEFINES= line below.
+#
+DEFINES=
+
+LIBDI=	libdi.a
+
+SRCS=	libdi.c \
+	scsipt.c \
+	os_aix.c \
+	os_aux.c \
+	os_dec.c \
+	os_dgux.c \
+	os_hpux.c \
+	os_irix.c \
+	os_linux.c \
+	os_odt.c \
+	os_sun.c \
+	os_svr4.c \
+	os_demo.c \
+	os_cdsim.c \
+	vu_chin.c \
+	vu_hita.c \
+	vu_nec.c \
+	vu_pion.c \
+	vu_sony.c \
+	vu_tosh.c \
+	slioc.c
+
+OBJS=	libdi.o \
+	scsipt.o \
+	os_aix.o \
+	os_aux.o \
+	os_dec.o \
+	os_dgux.o \
+	os_hpux.o \
+	os_irix.o \
+	os_linux.o \
+	os_odt.o \
+	os_sun.o \
+	os_svr4.o \
+	os_demo.o \
+	os_cdsim.o \
+	vu_chin.o \
+	vu_hita.o \
+	vu_nec.o \
+	vu_pion.o \
+	vu_sony.o \
+	vu_tosh.o \
+	slioc.o
+
+all: $(LIBDI)
+
+$(LIBDI): $(OBJS)
+	rm -f $@
+	$(AR) $@ $(OBJS)
+	$(RANLIB) $@
+
+install:
+

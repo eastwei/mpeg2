@@ -1,0 +1,62 @@
+************************************************************
+*  MPEG-I MULTI-STREAM SYSTEM-LAYER DECODER                *
+************************************************************
+Developed by 
+
+James Boucher(jboucher@flash.bu.edu)
+Ziv Yaar(zyaar@bu.edu)             
+Elisa Rubin(erubin@acs.bu.edu)     
+John Palmer(palmerj@acs.bu.edu)    
+                                   
+Multimedia Communications Lab      
+Boston University                  
+mcl@spiderman.bu.edu                   
+
+The Multimedia Communications Lab at Boston University is pleased to
+announce the public domain release of our MPEG-I Multi-Stream System
+Layer player set.
+
+The player currently supports playback of
+the system layer stream on:
+
+        SGI Indigo/Indigo-2
+        SPARCIPX with the 8KHz ULaw AMD audio device(/dev/audio)
+	LINUX with a 16 bit soundcard (/dev/dsp)
+	
+NOTE: You can compile with the -DNONE option if you don't have an
+audio device.
+
+You will need MOTIF and SYSTEM V extensions for shared memory and
+semaphores.  A user's guide is provided in postscript format in
+./mpeg_system/docs.  Test streams are also provided in
+./mpeg_system/streams.  Anyone interrested in adapting the program so
+as to not need MOTIF should contact Jim Boucher.
+
+Note that you really need the performance of an Indigo to playout a
+system layer stream with one audio stream and one video stream well
+(meaning the ability to see lips moving exactly with the audio).  An
+Indigo-2 plays more streams well (of course).  Since the only LINUX
+platform available was a 386/33 it was impossible to optimize
+synchronization parameters for this OS. If you are running this on a
+DX2 66 or better, please let us know your evaluation.
+
+The code is available from ftp at:  /pub/code on flash.bu.edu
+The file is: mpeg_system_player_v1.0.tar.Z.
+
+As a by-product of this development, a modified mpeg_play v2.0 that
+provides for the real-time playback of MPEG-I video streams was
+produced.  Here, real-time means that the player adapts dynamically to
+drop frames to match the number of frames passed through the player to
+the frame rate given in the sequence header of the video
+stream. (These are in the range 24 fps to 60 fps). To create this
+executable, one just recompiles the video player without the
+-DSYSTEM_PLAY switch. ANY PLATFORM that plays mpeg_play v2.0 can use
+the real-time video player.
+
+The player was designed with a Mosaic interface in mind so you can
+easily add it to the set of your Mosaic file players.  
+
+For player feedback, try James Boucher first. If all else fails
+contact mcl@spiderman.bu.edu.
+
+ENJOY and GOOD LUCK!!!

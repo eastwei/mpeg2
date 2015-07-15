@@ -1,0 +1,284 @@
+#
+# @(#)FAQ	5.7.1 95/03/27
+#
+# xmcd   - Motif(tm) CD Audio Player
+# cda    - Command-line CD Audio Player
+#
+# by Ti Kan
+#
+
+FREQUENTLY ASKED QUESTIONS
+--------------------------
+
+If you have a question about xmcd/cda or encounter problem,
+please read through this file.  You questions may already be
+answered in here.  If not, send e-mail to the author.
+Suggestions to add new entries to this list are also welcome.
+
+----------
+Q. Why do I have to type the disc and track titles into the CD
+   database?  Isn't the information recorded on the CD?
+
+A. No.  There is no way to get such information by reading the CD.
+   Fortunately, the public xmcd CD database is growing at a rapid
+   pace and many of your CDs may already be in it.  See the README
+   file about how to get a copy of this.
+----------
+Q. When I compile the xmcd source code, I get an error about
+   XmClientLibs.
+
+A. Your system's imake configuration is not set up to properly
+   support Motif.  To work around this problem, see the INSTALL
+   file and read the comments in the xmcd.d/Imakefile.
+----------
+Q. I get the following message when I start xmcd:
+   
+    Error: attempt to add non-widget child "dsm" to parent "xmcd"
+    which supports only widgets
+
+A. On certain platforms, there appears to be a problem with
+   the vendor shell widget class in the shared Motif library.
+   Rearranging the order of the Motif and X libraries linked may
+   alleviate this problem, and re-linking with the static
+   Motif library instead of the shared version usually solves this
+   problem.
+----------
+Q. When I start xmcd, I get error messages such as these:
+
+    Warning: translation table syntax error: Unknown keysym name: osfActivate
+    Warning: ... found while parsing '<Key>osfActivate: BulletinBoardReturn()'
+    Warning: translation table syntax error: Unknown keysym name: osfCancel
+    Warning: ... found while parsing '<Key>osfCancel: BulletinBoardCancel()'
+    etc...
+
+A. The LIBDIR/XKeysymDB file is not installed on your system (where
+   LIBDIR is typically /usr/lib/X11).  A XKeysymDB file is supplied
+   with the xmcd release.  When the XKeysymDB is installed in the
+   proper location this problem should go away.
+----------
+Q. Xmcd prints the following error message:
+
+    Neither the XMcd*libdir resource nor the XMCD_LIBDIR environment is
+    defined!
+
+A. Your xmcd software is not properly installed.  If you compiled the
+   xmcd from the source code, be sure to use "make install" to install
+   the software.  Also, make sure that the xmcd.d/XMcd.ad file is
+   installed as LIBDIR/app-defaults/XMcd (where LIBDIR is typically
+   /usr/lib/X11).  Check the contents of the LIBDIR/app-defaults/XMcd
+   file to make sure everything is configured correctly for your system.
+----------
+Q. Cda prints the following error message:
+
+    XMCD_LIBDIR environment not defined.
+
+A. You must set the XMCD_LIBDIR environment variable to run cda.
+   Typically this is set to "/usr/lib/X11/xmcd" (your local set-up
+   may vary).  You set the environment variable as follows:
+
+   Bourne Shell, Korn Shell or bash:
+	XMCD_LIBDIR=/usr/lib/X11/xmcd; export XMCD_LIBDIR
+
+   C Shell or tcsh:
+	setenv XMCD_LIBDIR /usr/lib/X11/xmcd
+----------
+Q. Xmcd dies with a message similar to one the following upon startup:
+
+    ld.so.1: xmcd: fatal: libXm.so.2: can't open file: errno=2
+    Killed
+
+    dynamic linker : xmcd : error opening libXm.so.2
+    Killed
+
+A. Your xmcd binary was compiled to link with dynamic libraries.
+   On SVR4 systems, a setuid program such as xmcd will search only
+   the /usr/lib and /usr/ccs/lib for dynamic libraries (for security
+   concerns).  However, some of the dynamic libraries that xmcd needs
+   are not in these standard locations.  This is notably true for
+   the Motif (libXm), Xt Intrinsics (libXt) and X11 (libX11) libraries.
+
+   In the example messages above, libXm.so.2 is not found.  You may
+   also run into the same problem with other libraries.
+
+   A solution is to create symbolic links such that these needed
+   dynamic libraries are linked to /usr/lib, and thus can be found
+   by xmcd.  In this example, if the shared library image for
+   Motif is /usr/openwin/lib/libXm.so.2, the following command
+   will establish the link:
+
+	ln -s /usr/openwin/lib/libXm.so.2 /usr/lib/libXm.so.2
+
+   If you don't like the symbolic link approach, an alternate solution
+   is to recompile xmcd such that the dynamic library locations are
+   specified with the -R option to the ld(1) command.  To do this, you
+   must be adept at editing the xmcd.d/Makefile and making the
+   appropriate changes, compile the xmcd sources, and re-installing
+   the binary.
+----------
+Q. Xmcd or cda complains that the CD is busy.
+
+A. Check the system for another xmcd or cda process running on
+   the same CD-ROM device.  If there are no other xmcd/cda process,
+   then look for a file /tmp/.cdaudio/lock.XXXX where XXXX is the
+   hexadecimal string of the device number.  Remove this file and
+   the problem should go away.  Normally a new xmcd/cda process will
+   inherit the lock from a previously exited xmcd/cda process, but
+   if the original process ID is now re-used by another process
+   this will not work.
+----------
+Q. Xmcd or cda complains that the device is not a CD-ROM and quits.
+
+A. Ensure that the CD-ROM drive is connected and functioning,
+   and that xmcd/cda is properly configured.  If it still fails,
+   make sure you did not compile the software with the -ansi option
+   to gcc.  If you did, that's the cause of the problem.
+
+   If you have one of those unusual OEM SCSI CD-ROM drives that
+   identify themselves as a hard disk (such as the Toshiba CD-ROM
+   XM revision 1971 units OEM'ed by SGI), you will need to add
+   -DOEM_CDROM to the libdi.d/Makefile and recompile.
+----------
+Q. Xmcd seems to be real slow to respond to mouse clicks.
+
+A. Make sure your system has enough memory.  X11 programs, especially
+   Motif applications, consume a lot of memory.  Xmcd is no exception.
+   Your system may be swapping and paging heavily, causing the
+   performance degradation.  Try closing some unneeded windows.  Also,
+   the X server may have a memory leak which causes it to grow
+   over time.  Try stopping the entire X session and starting a new
+   one.
+
+   Run some system performance analysis tools (sar, u386mon, vmstat,
+   crash, etc.) to see if there is a system tuning issue.
+
+   Also, setting the xmcd X resource XMcd*mainShowFocus to False may
+   improve performance somewhat.
+----------
+Q. Clicking the mouse button #3 on the volume control, balance control
+   and track warp slider thumbs will not bring up the help window.
+
+A. Click on the label area instead of the thumb.  This is a limitation
+   of the Motif scale widget.
+----------
+Q. When clicking mouse button #3 on the volume control numeric label
+   area, sometimes the help window does not appear.
+
+A. The problem occurs when the current keyboard input focus is on the
+   volume control slider.  This is a limitation of the Motif scale
+   widget.  The work-around is to click another button first to change
+   the keyboard focus to another button, then click the #3 button
+   on the volume control numeric label to bring up the help window.
+----------
+Q. Xmcd/cda seems to be playing the CD, but there is no sound.
+
+A. Make sure you are not running a "demo" version of xmcd.  If you
+   see this message when you start xmcd or cda, then you are running
+   the demo version that does not actually work with a real CD-ROM
+   drive:
+
+    CD-ROM simulator version x.xx (pid=xxxxx) starting...
+
+   You will get the demo mode if you compile and run xmcd/cda on
+   an unsupported OS platform.
+
+   Also, make sure your CD-ROM drive audio output is connected to
+   something.  You may either connect headphones or amplified speakers
+   to the front jack, or connect the rear audio output to an external
+   amplifier.
+
+   On PC platforms, you can also connect the CD-ROM audio output to
+   a sound card.  If a sound card is used, you must also use an audio
+   mixer program to set the CD Input Level and Master Volume.  See the
+   README file about the xmmix (Motif Audio Mixer) utility.
+
+   Xmcd/cda currently does not support the built-in audio hardware
+   on some HP, SGI and Sun workstations.  Thus, there is no way
+   to make the CD-ROM play via the workstation's internal speakers.
+   You probably wouldn't want to use the internal speakers anyway,
+   since the sound quality is typically quite poor.
+----------
+Q. Xmcd/cda reports "no disc" even though there is a CD in the drive.
+
+A. Your system must be set up properly to use a CD-ROM drive.  A good
+   test is to see if you can mount ISO-9660/High Sierra CD-ROM
+   file-systems.  If your system does not support ISO-9660 but otherwise
+   supports a raw CD-ROM device, you can try typing this command while
+   logged in as the super-user (with a DATA CD loaded in the CD-ROM
+   drive):
+
+    dd if=DEVICE of=/dev/null bs=2k count=10
+
+   where DEVICE is the CD-ROM device node, such as /dev/rcd0 (SCO ODT),
+   /dev/rcdrom/cdrom1 (SVR4.2/x86) or /dev/rsr0 (SunOS 4.1.x).
+
+   If the dd command fails, then either your hardware is not set up
+   properly, or your OS is not configured to support the CD-ROM device.
+   You should fix the problem first before attempting to run xmcd/cda.
+
+   Once you have validated basic functionality with data CDs, then
+   make sure xmcd/cda is properly configured.  Run the
+   LIBDIR/xmcd/config/configure.sh script (where LIBDIR is typically
+   /usr/lib/X11).
+
+   Also, be sure that you are running on a supported operating system
+   and hardware platform, and that the minimum OS version requirement
+   is met.  Some platforms require special kernel or driver
+   configuration to run xmcd/cda.  See the README and INSTALL files
+   for details.
+----------
+Q. Some of the features of xmcd/cda do not work, such as the volume
+   control, balance control, channel routing, caddy eject, or index
+   search buttons.
+
+A. Your CD-ROM drive may not support some of these features.
+   Another possibility is that the software is improperly configured.
+   Run the LIBDIR/xmcd/config/configure.sh script to re-configure
+   xmcd/cda.
+----------
+Q. The xmcd shuffle mode button doesn't work, it just beeps when I click
+   on it.
+
+A. Shuffle mode can only be enabled when the CD is stopped.  If your
+   CD is playing, stop the playback and the shuffle button should work.
+   This is a safeguard feature to prevent unintentionally interrupting
+   the playback.
+----------
+Q. I am using a non-SCSI CD-ROM drive under Linux.  The system seems to
+   hang for a few seconds when I start or stop the CD via xmcd/cda,
+   then everything works fine after that.
+
+A. This is the characteristic of the particular CD-ROM device driver
+   and can be considered "normal" (or send bug report to the driver
+   author).
+----------
+Q. I would like to purchase a CD-ROM drive for use with xmcd/cda and
+   for data CD purposes.  Which do you recommend?
+
+A. I will not give specific brand and model recommendations, but I
+   will recommend a SCSI-2 drive over a non-SCSI one.  Xmcd does not
+   currently support non-SCSI units except under Linux.  Also, more
+   features are supported by xmcd on SCSI drives than on non-SCSI units.
+
+   Furthermore, SCSI CD-ROM drives are universally supported on the
+   various OS and hardware platforms (whereas non-SCSI units only
+   work on x86 PCs).  This makes a SCSI drive more portable between
+   different systems, and there is less worry about getting obscure
+   device drivers to work.
+
+   Note that not all SCSI-2 drives are created equal, some of them
+   implement more of the audio-related commands than others.  If you
+   do a careful study of xmcd's libdi.d/cfgtbl/* files, you'll get
+   a good glimpse at the CD-ROM drives' capabilities.  Some of
+   xmcd's features will not work unless these commands are fully
+   implemented on the drive.  Also, see the README file for specific
+   drive-related notes.
+
+   While all audio CDs run at single-speed, if you will mount data CDs
+   extensively, it pays to get the double-speed or faster units.  A good
+   size cache (256KB or more) is a good idea.
+
+   Note that some workstations require special OEM versions of the
+   CD-ROM drives (such as Sun, which requires support of 512-byte
+   block sizes rather than the standard 2048).
+----------
+

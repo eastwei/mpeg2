@@ -1,0 +1,555 @@
+!
+! @(#)XMcd.ad	5.5 94/12/28
+!
+!   xmcd - Motif(tm) CD Audio Player
+!
+!   Copyright (C) 1995  Ti Kan
+!   E-mail: ti@amb.org
+!
+!   This program is free software; you can redistribute it and/or modify
+!   it under the terms of the GNU General Public License as published by
+!   the Free Software Foundation; either version 2 of the License, or
+!   (at your option) any later version.
+!
+!   This program is distributed in the hope that it will be useful,
+!   but WITHOUT ANY WARRANTY; without even the implied warranty of
+!   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!   GNU General Public License for more details.
+!
+!   You should have received a copy of the GNU General Public License
+!   along with this program; if not, write to the Free Software
+!   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+!
+!
+! These are general application resources for xmcd.  There are also
+! common configuration parameters in LIBDIR/config/common.cfg, as well
+! as device-specific parameters in LIBDIR/config/DEVNAME, where LIBDIR
+! if the path specified by the XMcd.libdir resource and DEVNAME is
+! the basename of the device node path.
+!
+
+!*
+!* Library directory path, as the root of xmcd configuration files
+!* and CD database directories.
+!* (The XMCD_LIBDIR env variable overrides this resource)
+!*
+!* This resource _must_ be set correctly in your environment
+!* in order for xmcd to function correctly.
+!*
+XMcd*libdir:			/usr/lib/X11/xmcd
+
+!*
+!* CD Database archive contribution
+!*
+!* The cddbMailSite is the Internet e-mail address where the
+!* CD database entry of the currently loaded CD will be sent,
+!* when you press the Send button in the CDDB/Program window.
+!* You should use this feature only if your system is capable
+!* of sending Internet electronic mail.
+!*
+!* The cddbMailCmd is the shell command to deliver the mail.
+!* You may have to change this to suit your local mailer.
+!* The following special characters in cddbMailCmd are recognized
+!* by xmcd and replaced with the appropriate text:
+!*
+!*	%S	mail subject string (required)
+!* 	%A	e-mail address (cddbMailSite)
+!*	%F	CD database file path
+!*
+XMcd*cddbMailSite:		xmcd-cddb@amb.org
+XMcd*cddbMailCmd:		mailx -s '%S' %A <%F >/dev/null 2>&1
+
+!*
+!* Color resource defaults
+!*
+!* The following should be used only on a color or grey-scale display.
+!* You may wish to alter these color defaults.  I find them aesthetically
+!* pleasing as-is.
+!*
+
+XMcd*mainForm.foreground:		Black
+XMcd*mainForm.background:		CadetBlue4
+XMcd*trackIndicator.foreground:		Orange
+XMcd*trackIndicator.background:		Black
+XMcd*indexIndicator.foreground:		Orange
+XMcd*indexIndicator.background:		Black
+XMcd*timeIndicator.foreground:		Orange
+XMcd*timeIndicator.background:		Black
+XMcd*dbModeIndicator.foreground:	Cyan
+XMcd*dbModeIndicator.background:	Black
+XMcd*repeatCountIndicator.foreground:	Orange
+XMcd*repeatCountIndicator.background:	Black
+XMcd*progModeIndicator.foreground:	Cyan
+XMcd*progModeIndicator.background:	Black
+XMcd*timeModeIndicator.foreground:	Cyan
+XMcd*timeModeIndicator.background:	Black
+XMcd*playModeIndicator.foreground:	Cyan
+XMcd*playModeIndicator.background:	Black
+XMcd*discTitleIndicator.foreground:	White
+XMcd*discTitleIndicator.background:	CadetBlue4
+XMcd*trackTitleIndicator.foreground:	White
+XMcd*trackTitleIndicator.background:	CadetBlue4
+XMcd*keypadIndicator.foreground:	Orange
+XMcd*keypadIndicator.background:	Black
+XMcd*selectColor:			Yellow
+
+XMcd*XmForm.foreground:			Black
+XMcd*XmForm.background:			Grey65
+XMcd*XmLabel.foreground:		Black
+XMcd*XmLabel.background:		Grey65
+XMcd*XmText.foreground:			Black
+XMcd*XmText.background:			Grey75
+XMcd*XmList.foreground:			Black
+XMcd*XmList.background:			Grey75
+XMcd*highlightColor:			DarkOrchid
+XMcd*topShadowColor:			White
+XMcd*bottomShadowColor:			Black
+XMcd*foreground:			Black
+XMcd*background:			Grey65
+
+!*
+!* Monochrome resource defaults
+!*
+!* These should be used only on a monochrome (1 bit plane) display.
+!*
+
+!XMcd*trackIndicator.foreground:	White
+!XMcd*trackIndicator.background:	Black
+!XMcd*indexIndicator.foreground:	White
+!XMcd*indexIndicator.background:	Black
+!XMcd*timeIndicator.foreground:		White
+!XMcd*timeIndicator.background:		Black
+!XMcd*discTitleIndicator.foreground:	Black
+!XMcd*discTitleIndicator.background:	White
+!XMcd*trackTitleIndicator.foreground:	Black
+!XMcd*trackTitleIndicator.background:	White
+!XMcd*repeatCountIndicator.foreground:	White
+!XMcd*repeatCountIndicator.background:	Black
+!XMcd*dbModeIndicator.foreground:	White
+!XMcd*dbModeIndicator.background:	Black
+!XMcd*progModeIndicator.foreground:	White
+!XMcd*progModeIndicator.background:	Black
+!XMcd*timeModeIndicator.foreground:	White
+!XMcd*timeModeIndicator.background:	Black
+!XMcd*playModeIndicator.foreground:	White
+!XMcd*playModeIndicator.background:	Black
+!XMcd*keypadIndicator.foreground:	White
+!XMcd*keypadIndicator.background:	Black
+!XMcd*foreground:			Black
+!XMcd*background:			White
+
+
+!*
+!* Widget-specific or widget-type-specific resources
+!*
+!* These should not require any modification, except if the specified
+!* fonts are not available, or to change the text string defaults to
+!* a non-English language.
+!*
+
+! Font defaults
+XMcd*mainForm.checkBoxFrame*fontList:	-*-helvetica-medium-r-*--10-100-*
+XMcd*mainForm.XmPushButton*fontList:	-*-helvetica-medium-r-*--10-100-*
+XMcd*trackIndicator.fontList:	-*-helvetica-medium-o-*--24-240-*
+XMcd*indexIndicator.fontList:	-*-helvetica-bold-o-*--14-140-*
+XMcd*timeIndicator.fontList:	-*-helvetica-medium-o-*--24-240-*
+XMcd*repeatCountIndicator.fontList:	-*-helvetica-bold-o-*--12-120-*
+XMcd*dbModeIndicator.fontList:	-*-helvetica-bold-r-*--12-120-*
+XMcd*progModeIndicator.fontList:	-*-helvetica-bold-r-*--12-120-*
+XMcd*timeModeIndicator.fontList:	-*-helvetica-bold-r-*--12-120-*
+XMcd*playModeIndicator.fontList:	-*-helvetica-bold-r-*--12-120-*
+XMcd*discTitleIndicator.fontList:	-*-helvetica-medium-r-*--10-100-*
+XMcd*trackTitleIndicator.fontList:	-*-helvetica-medium-r-*--10-100-*
+XMcd*aboutPopup*fontList:	-*-times-bold-i-*--24-240-*=chset1, \
+				-*-times-bold-i-*--12-120-*=chset2, \
+				-*-fixed-medium-r-*--10-100-*=chset3, \
+				fixed
+XMcd*discIdIndicator.fontList:	-*-helvetica-medium-r-*--10-100-*
+XMcd*dirSelectList.fontList:	-*-helvetica-medium-r-*--12-120-*
+XMcd*linkSelectList*fontList:	-*-helvetica-medium-r-*--12-120-*=chset1, \
+				-*-helvetica-bold-r-*--12-120-*=chset2, \
+				fixed
+XMcd*extDiscInfoLabel.fontList:	-*-helvetica-bold-r-*--12-120-*
+XMcd*extTrackInfoLabel.fontList:	-*-helvetica-bold-r-*--12-120-*
+XMcd*keypadForm*keypadLabel.fontList:	-*-helvetica-medium-r-*--10-100-*
+XMcd*keypadForm*keypadIndicator.fontList: \
+				-*-helvetica-*-o-*--14-140-*
+XMcd*keypadForm*trackWarpLabel.fontList: \
+				-*-helvetica-medium-r-*--10-100-*
+XMcd*keypadForm*keypadCancelButton.fontList: \
+				-*-helvetica-medium-r-*--12-120-*
+XMcd*keypadForm*fontList:	-*-helvetica-medium-r-*--10-100-*
+XMcd*optionsForm*XmFrame*fontList: \
+				-*-helvetica-medium-r-*--10-100-*
+XMcd*optionsForm*XmLabel*fontList: \
+				-*-helvetica-medium-r-*--10-100-*
+XMcd*optionsForm*balanceCenterButton.fontList: \
+				-*-helvetica-medium-r-*--10-100-*
+XMcd*optionsForm*fontList:	-*-helvetica-medium-r-*--12-120-*
+
+XMcd*helpForm*XmPushButton*fontList:	-*-helvetica-medium-r-*--12-120-*
+
+XMcd*XmList.fontList:		-*-helvetica-medium-r-*--12-120-*=chset1, \
+				-*-helvetica-bold-r-*--12-120-*=chset2, \
+				fixed
+XMcd*XmText.fontList:		-*-helvetica-medium-r-*--12-120-*
+XMcd*XmScale.fontList:		6x10
+XMcd*fontList:			-*-helvetica-medium-r-*--12-120-*
+
+! Text string defaults
+XMcd*checkBox*button_0.labelString:		disp
+XMcd*checkBox*button_1.labelString:		lock
+XMcd*checkBox*button_2.labelString:		rept
+XMcd*checkBox*button_3.labelString:		shuf
+XMcd*ejectButton.labelString:			eject
+XMcd*powerOffButton.labelString:		quit
+XMcd*dbprogButton.labelString:			cddb\nprog
+XMcd*helpButton.labelString:			help
+XMcd*optionsButton.labelString:			opt
+XMcd*timeButton.labelString:			time
+XMcd*abButton.labelString:			a->b
+XMcd*sampleButton.labelString:			samp
+XMcd*keypadButton.labelString:			kpad
+XMcd*playPauseButton.labelString:		play / pause
+XMcd*stopButton.labelString:			stop
+XMcd*prevTrackButton.labelString:		< track
+XMcd*nextTrackButton.labelString:		track >
+XMcd*prevIndexButton.labelString:		< index
+XMcd*nextIndexButton.labelString:		index >
+XMcd*rewButton.labelString:			<< rew
+XMcd*ffButton.labelString:			ff >>
+XMcd*keypadForm.dialogTitle:			Keypad
+XMcd*keypadLabel.labelString:			Direct track access
+XMcd*keypadNumButton0.labelString:		0
+XMcd*keypadNumButton1.labelString:		1
+XMcd*keypadNumButton2.labelString:		2
+XMcd*keypadNumButton3.labelString:		3
+XMcd*keypadNumButton4.labelString:		4
+XMcd*keypadNumButton5.labelString:		5
+XMcd*keypadNumButton6.labelString:		6
+XMcd*keypadNumButton7.labelString:		7
+XMcd*keypadNumButton8.labelString:		8
+XMcd*keypadNumButton9.labelString:		9
+XMcd*keypadEnterButton.labelString:		Enter
+XMcd*keypadClearButton.labelString:		Clear
+XMcd*trackWarpLabel.labelString:		Track warp
+XMcd*keypadCancelButton.labelString:		Cancel
+XMcd*optionsForm.dialogTitle:			Options
+XMcd*onLoadLabel.labelString:			On Load
+XMcd*onLoadCheckBox*button_0.labelString:	auto lock
+XMcd*onLoadRadioBox*button_0.labelString:	none
+XMcd*onLoadRadioBox*button_1.labelString:	spin down
+XMcd*onLoadRadioBox*button_2.labelString:	auto play
+XMcd*onExitLabel.labelString:			On Exit
+XMcd*onExitRadioBox*button_0.labelString:	none
+XMcd*onExitRadioBox*button_1.labelString:	auto stop
+XMcd*onExitRadioBox*button_2.labelString:	auto eject
+XMcd*onDoneLabel.labelString:			On Done
+XMcd*onDoneCheckBox*button_0.labelString:	auto eject
+XMcd*onEjectLabel.labelString:			On Eject
+XMcd*onEjectCheckBox*button_0.labelString:	auto exit
+XMcd*channelRouteLabel.labelString:		Channel routing
+XMcd*channelRouteRadioBox*button_0.labelString:	normal
+XMcd*channelRouteRadioBox*button_1.labelString:	reverse
+XMcd*channelRouteRadioBox*button_2.labelString:	mono L
+XMcd*channelRouteRadioBox*button_3.labelString:	mono R
+XMcd*channelRouteRadioBox*button_4.labelString:	mono L+R
+XMcd*volTaperLabel.labelString:			Volume ctrl taper
+XMcd*volTaperRadioBox*button_0.labelString:	linear
+XMcd*volTaperRadioBox*button_1.labelString:	square
+XMcd*volTaperRadioBox*button_2.labelString:	inverse sqr
+XMcd*balanceLabel.labelString:			Balance
+XMcd*balanceLeftLabel.labelString:		Left
+XMcd*balanceRightLabel.labelString:		Right
+XMcd*balanceCenterButton.labelString:		Center
+XMcd*resetButton.labelString:			Reset
+XMcd*okButton.labelString:			OK
+XMcd*dbprogForm.dialogTitle:		CD Database / Track Program Editor
+XMcd*aboutButton.labelString:			About...
+XMcd*discTitleLabel.labelString:		Disc artist / Title
+XMcd*discLabel.labelString:			Disc
+XMcd*extDiscInfoButton.labelString:		Ext Info...
+XMcd*trackListLabel.labelString:		Track / Time / Title
+XMcd*timeSelectLabel.labelString:		Time
+XMcd*timeSelectBox*button_0.labelString: 	total
+XMcd*timeSelectBox*button_1.labelString: 	track
+XMcd*discIdLabel.labelString:			Disc ID
+XMcd*discIdIndicator.labelString:		--
+XMcd*trackTitleLabel.labelString:		Track title edit
+XMcd*trackLabel.labelString:			Track
+XMcd*extTrackInfoButton.labelString:		Ext Info...
+XMcd*programLabel.labelString:			Program
+XMcd*addProgramButton.labelString:		Add
+XMcd*clearProgramButton.labelString:		Clear
+XMcd*playProgramButton.labelString:		Play
+XMcd*programSequenceLabel.labelString:		Program sequence
+XMcd*sendButton.labelString:			Send
+XMcd*saveDatabaseButton.labelString:		Save
+XMcd*linkDatabaseButton.labelString:		Link
+XMcd*loadDatabaseButton.labelString:		Load
+XMcd*dbprogCancelButton.labelString:		Cancel
+XMcd*dirSelectForm.dialogTitle:		CD Database Directory Selection
+XMcd*dirSelectLabel.labelString:		Choose one
+XMcd*dirSelectOkButton.labelString:		OK
+XMcd*dirSelectCancelButton.labelString:		Cancel
+XMcd*linkSelectForm.dialogTitle:		CDDB Link Entry Selection
+XMcd*linkSelectLabel.labelString: \
+Choose one\n\
+Avg diff time, Disc artist / title
+XMcd*linkSelectOkButton.labelString:		OK
+XMcd*linkSelectCancelButton.labelString:	Cancel
+XMcd*extDiscInfoForm.dialogTitle:		Disc Information
+XMcd*extDiscInfoOkButton.labelString:		OK
+XMcd*extDiscInfoClearButton.labelString: 	Clear
+XMcd*extDiscInfoCancelButton.labelString:	Cancel
+XMcd*extTrackInfoForm.dialogTitle:		Track Information
+XMcd*extTrackInfoOkButton.labelString:		OK
+XMcd*extTrackInfoClearButton.labelString: 	Clear
+XMcd*extTrackInfoCancelButton.labelString:	Cancel
+XMcd*helpForm.dialogTitle:			Xmcd Help
+XMcd*helpOkButton.labelString:			OK
+
+! Main window size
+XMcd*mainForm.width:				360
+XMcd*mainForm.height:				133
+
+! Keypad popup window size
+XMcd*keypadForm.width:				150
+XMcd*keypadForm.height:				230
+
+! Options popup window size
+XMcd*optionsForm.width:				220
+XMcd*optionsForm.height:			370
+
+! Database/Program popup window size
+XMcd*dbprogForm.width:				420
+XMcd*dbprogForm.height:				440
+
+! Disc Extended Info popup window size
+XMcd*extDiscInfoForm.width:			390
+XMcd*extDiscInfoForm.height:			340
+
+! Track Extended Info popup window size
+XMcd*extTrackInfoForm.width:			390
+XMcd*extTrackInfoForm.height:			340
+
+! Help popup window size
+XMcd*helpForm.width:				390
+XMcd*helpForm.height:				340
+
+! Directory Selector popup window size
+XMcd*dirSelectForm.width:			270
+XMcd*dirSelectForm.height:			230
+
+! Directory Selector popup window size
+XMcd*linkSelectForm.width:			350
+XMcd*linkSelectForm.height:			430
+
+! Main window button-face label option
+! Set to PIXMAP for pictoral labels, STRING for text labels
+XMcd*mainForm.checkBox*labelType:		PIXMAP
+XMcd*mainForm.XmPushButton*labelType:		PIXMAP
+
+! Misc defaults
+XMcd*mainForm*XmLabel*highlightThickness:	0
+XMcd*mainForm*XmPushButton*highlightThickness:	0
+XMcd*mainForm*XmScale*highlightThickness:	0
+XMcd*mainForm*XmFrame*highlightThickness:	1
+XMcd*mainForm*borderWidth:			0
+XMcd*optionsForm*borderWidth:			0
+XMcd*dbprogForm*borderWidth:			0
+XMcd*trackWarpScale*highlightThickness:		2
+XMcd*balanceScale*highlightThickness:		2
+XMcd*XmLabel*alignment:				ALIGNMENT_CENTER
+XMcd*XmFrame*indicatorSize:			13
+XMcd*XmFrame*borderWidth:			1
+XMcd*XmFrame*highlightThickness:		1
+XMcd*XmList*highlightThickness:			1
+XMcd*XmPushButton.highlightThickness:		2
+XMcd*XmText*highlightThickness:			2
+XMcd*XmText*autoShowCursorPosition:		True
+XMcd*XmText*cursorPositionVisible:		True
+
+XMcd*levelScale*translations:			#override\n\
+	<FocusIn>: focuschg(levelScale)\n\
+	<FocusOut>: focuschg(levelScale)
+
+
+!*
+!* Short cut key defaults
+!*
+!* These should not require any modifications.
+!* These are processed by xmcd and installed as translations.
+!* The modifier key specification must be one of Shift, Ctrl, Lock,
+!* Mod1, Mod2, Mod3, Mod4 or Mod5.
+!*
+
+! Main window
+XMcd*buttonLabelKey:\
+		<Key>i: hotkey(checkBoxFrame*button_0,Arm)\n
+XMcd*lockKey:	<Key>l: hotkey(checkBoxFrame*button_1,Arm)\n
+XMcd*repeatKey:	<Key>e: hotkey(checkBoxFrame*button_2,Arm)\n
+XMcd*shuffleKey:\
+		<Key>u: hotkey(checkBoxFrame*button_3,Arm)\n
+XMcd*ejectKey:	<Key>j: hotkey(ejectButton,ArmAndActivate)\n
+XMcd*powerOffKey:\
+		<Key>q: hotkey(powerOffButton,ArmAndActivate)\n\
+		Mod1<Key>q: hotkey(powerOffButton,ArmAndActivate)\n
+XMcd*dbprogKey:	<Key>d: hotkey(dbprogButton,ArmAndActivate)\n
+XMcd*helpKey:	<Key>h: hotkey(helpButton,ArmAndActivate)\n\
+		Shift<Key>question: hotkey(helpButton,ArmAndActivate)\n
+XMcd*optionsKey:\
+		<Key>o: hotkey(optionsButton,ArmAndActivate)\n
+XMcd*timeKey:	<Key>t: hotkey(timeButton,ArmAndActivate)\n
+XMcd*abKey:	<Key>a: hotkey(abButton,ArmAndActivate)\n
+XMcd*sampleKey:	<Key>m: hotkey(sampleButton,ArmAndActivate)\n
+XMcd*keypadKey:	<Key>k: hotkey(keypadButton,ArmAndActivate)\n
+XMcd*playPauseKey:\
+		<Key>p: hotkey(playPauseButton,ArmAndActivate)\n
+XMcd*stopKey:	<Key>s: hotkey(stopButton,ArmAndActivate)\n
+XMcd*prevTrackKey:\
+		Shift<Key>c: hotkey(prevTrackButton,ArmAndActivate)\n\
+		<Key>Prior: hotkey(prevTrackButton,ArmAndActivate)\n\
+		<Key>bracketleft: hotkey(prevTrackButton,ArmAndActivate)\n\
+		Ctrl<Key>F1: hotkey(prevTrackButton,ArmAndActivate)\n
+XMcd*nextTrackKey:\
+		<Key>c: hotkey(nextTrackButton,ArmAndActivate)\n\
+		<Key>Next: hotkey(nextTrackButton,ArmAndActivate)\n\
+		<Key>bracketright: hotkey(nextTrackButton,ArmAndActivate)\n\
+		Ctrl<Key>F2: hotkey(nextTrackButton,ArmAndActivate)\n
+XMcd*prevIndexKey:\
+		Shift<Key>x: hotkey(prevIndexButton,ArmAndActivate)\n\
+		Ctrl<Key>F3: hotkey(prevIndexButton,ArmAndActivate)\n
+XMcd*nextIndexKey:\
+		<Key>x: hotkey(nextIndexButton,ArmAndActivate)\n\
+		Ctrl<Key>F4: hotkey(nextIndexButton,ArmAndActivate)\n
+XMcd*rewKey:	Ctrl<Key>F5: hotkey(rewButton,Arm)\n\
+		Ctrl<Key>F6: hotkey(rewButton,Activate,Disarm)\n
+XMcd*ffKey:	Ctrl<Key>F7: hotkey(ffButton,Arm)\n\
+		Ctrl<Key>F8: hotkey(ffButton,Activate,Disarm)\n
+
+! Keypad window
+XMcd*keypadNumKey0:\
+		<Key>0: hotkey(keypadNumButton0,ArmAndActivate)\n
+XMcd*keypadNumKey1:\
+		<Key>1: hotkey(keypadNumButton1,ArmAndActivate)\n
+XMcd*keypadNumKey2:\
+		<Key>2: hotkey(keypadNumButton2,ArmAndActivate)\n
+XMcd*keypadNumKey3:\
+		<Key>3: hotkey(keypadNumButton3,ArmAndActivate)\n
+XMcd*keypadNumKey4:\
+		<Key>4: hotkey(keypadNumButton4,ArmAndActivate)\n
+XMcd*keypadNumKey5:\
+		<Key>5: hotkey(keypadNumButton5,ArmAndActivate)\n
+XMcd*keypadNumKey6:\
+		<Key>6: hotkey(keypadNumButton6,ArmAndActivate)\n
+XMcd*keypadNumKey7:\
+		<Key>7: hotkey(keypadNumButton7,ArmAndActivate)\n
+XMcd*keypadNumKey8:\
+		<Key>8: hotkey(keypadNumButton8,ArmAndActivate)\n
+XMcd*keypadNumKey9:\
+		<Key>9: hotkey(keypadNumButton9,ArmAndActivate)\n
+XMcd*keypadClearKey:\
+		<Key>l: hotkey(keypadClearButton,ArmAndActivate)\n
+XMcd*keypadEnterKey:\
+		<Key>e: hotkey(keypadEnterButton,ArmAndActivate)\n
+XMcd*keypadCancelKey:\
+		<Key>c: hotkey(keypadCancelButton,ArmAndActivate)\n\
+		Mod1<Key>q: hotkey(keypadCancelButton,ArmAndActivate)\n
+
+
+!*
+!* Application-specific message string resources
+!*
+!* These need only be changed for non-English languages
+!*
+XMcd*mainWindowTitle:		Motif CD Audio Player
+XMcd*dbModeMsg:			cddb
+XMcd*progModeMsg:		prog
+XMcd*elapseMsg:			elapse
+XMcd*remainTrackMsg:		r-trac
+XMcd*remainDiscMsg:		r-disc
+XMcd*playMsg:			play
+XMcd*pauseMsg:			pause
+XMcd*readyMsg:			ready
+XMcd*sampleMsg:			sample
+XMcd*usageMsg:			Usage:
+XMcd*badOptsMsg:		The following options are unrecognized:
+XMcd*noDiscMsg:			no disc
+XMcd*devBusyMsg:		cd busy
+XMcd*unknownDiscMsg:		unknown disc title
+XMcd*unknownTrackMsg:		unknown track title
+XMcd*dataMsg:			data
+XMcd*warningMsg:		Warning
+XMcd*fatalMsg:			Fatal Error
+XMcd*confirmMsg:		Confirm
+XMcd*infoMsg:			Information
+XMcd*aboutMsg:			About
+XMcd*quitMsg:			Really Quit?
+XMcd*noMemMsg:			Out of virtual memory!
+XMcd*tmpdirErrMsg:		Cannot create or open directory %s!
+XMcd*libdirErrMsg: \
+Neither the XMcd*libdir resource nor the XMCD_LIBDIR environment is defined!
+XMcd*noMethodErrMsg:		Unsupported deviceInterfaceMethod parameter!
+XMcd*noVuErrMsg:		Unsupported driveVendorCode parameter!
+XMcd*noHelpMsg:			The help file for this topic is not installed!
+XMcd*noLinkMsg:			There is no likely CDDB entry to link to.
+XMcd*noDbMsg:			No CD Database directory.
+XMcd*noCfgMsg: \
+Xmcd configuration error\n\
+Cannot open configuration file:\n\
+\"%s\"
+XMcd*notRomMsg:			Device %s is not a CD-ROM!
+XMcd*notScsi2Msg:		Device %s is not SCSI-2 compliant.
+XMcd*sendConfirmMsg: \
+Send current CD database entry to\n\
+\"%s\"\n\
+via Internet electronic mail?
+XMcd*mailErrMsg:		Mail command failed.
+XMcd*modeErrMsg: \
+Xmcd binary permissions error: It should be setuid root.  Please have\n\
+your system administrator correct this.
+XMcd*statErrMsg:		Cannot stat device %s.
+XMcd*nodeErrMsg:		%s is not the correct special device type!
+XMcd*seqFmtErrMsg:		Program sequence string format error.
+XMcd*dbdirsErrMsg:		maxDbdirs parameter error.
+XMcd*recovErrMsg:		Recovering from audio playback error...
+XMcd*maxErrMsg:			Too many errors.
+XMcd*savErrForkMsg:		File not saved:\nCannot fork. (errno %d)
+XMcd*savErrSuidMsg:		File not saved:\nCannot setuid %d or setgid %d.
+XMcd*savErrOpenMsg:		File not saved:\nCannot open file for writing.
+XMcd*savErrCloseMsg:		File not saved:\nCannot save changes.
+XMcd*savErrKilledMsg:		File not saved:\nChild killed. (signal %d)
+XMcd*lnkErrForkMsg:		File not linked:\nCannot fork. (errno %d)
+XMcd*lnkErrSuidMsg:		File not linked:\nCannot setuid to %d.
+XMcd*lnkErrLinkMsg:		File not linked:\nCannot link.
+XMcd*lnkErrKilledMsg:		File not linked:\nChild killed. (signal %d)
+
+
+!*
+!* Other appearance items
+!*
+
+! When any indicator is set to blink mode, the blinking interval used (msec).
+! This is used for the time display during pause, A->B mode indicator, etc.
+XMcd*displayBlinkOnInterval:		850
+XMcd*displayBlinkOffInterval:		150
+
+! Whether main window controls change their foreground color in response
+! to keyboard focus change.
+XMcd*mainShowFocus:			True
+
+
+!*
+!* General resources
+!*
+
+XMcd*recomputeSize:			True
+XMcd*defaultPosition:			True
+XMcd*highlightThickness:		0
+XMcd*defaultButtonShadowThickness:	0
+XMcd*borderWidth:			0
+XMcd*doubleClickInterval:		400
+XMcd*labelType:				STRING
+XMcd*keyboardFocusPolicy:		EXPLICIT
+

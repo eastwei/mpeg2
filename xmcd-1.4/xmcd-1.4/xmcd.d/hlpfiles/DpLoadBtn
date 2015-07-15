@@ -1,0 +1,47 @@
+#
+# @(#)DpLoadBtn	5.2 94/12/28
+#
+#   xmcd - Motif(tm) CD Audio Player
+#
+#   Copyright (C) 1995  Ti Kan
+#   E-mail: ti@amb.org
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#
+Load Database Entry Button
+
+Selecting this button will cause Xmcd to load the
+CD Database entry associated with the currently
+loaded CD, if it exists.
+
+Normally, it is not necessary to use this function,
+as Xmcd automatically loads the CD Database entry
+when the CD is loaded.  This button forces a re-load
+of the database entry, and is useful in the following
+example scenarios:
+
+  - You have edited the loaded version of the database
+    entry, have not saved it to the CD Database, and
+    want to discard your changes.
+
+  - The CD Database entry was modified since you
+    loaded the disc (by another Xmcd process or
+    perhaps via direct edit), and you want to load
+    the new version.
+
+The button will have no effect if there is no CD
+Database entry for the currently loaded CD, or if
+there is no CD loaded.

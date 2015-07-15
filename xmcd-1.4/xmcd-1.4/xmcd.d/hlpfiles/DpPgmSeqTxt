@@ -1,0 +1,44 @@
+#
+# @(#)DpPgmSeqTxt	5.2 94/12/28
+#
+#   xmcd - Motif(tm) CD Audio Player
+#
+#   Copyright (C) 1995  Ti Kan
+#   E-mail: ti@amb.org
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#
+Program Sequence Text Field
+
+This text field displays the current program play
+track sequence.  You may use the "Add To Program"
+and "Clear Program" buttons to add and clear program
+tracks, or edit the sequence directly in this text
+field.
+
+To start playing the program sequence, select the
+Play/Pause button in the Xmcd main window.
+
+When editing the program sequence directly, only
+digits and the comma "," character are allowed.
+Any other key input will be rejected.  No other
+error checking is made to the program sequence when
+you edit.
+
+If a program sequence exists in this text field when
+the "Save" button is selected, it will be saved in
+the CD Database along with the associated entry of
+the currently loaded CD.

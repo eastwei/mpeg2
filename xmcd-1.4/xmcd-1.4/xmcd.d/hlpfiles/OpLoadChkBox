@@ -1,0 +1,46 @@
+#
+# @(#)OpLoadChkBox	5.2 94/12/28
+#
+#   xmcd - Motif(tm) CD Audio Player
+#
+#   Copyright (C) 1995  Ti Kan
+#   E-mail: ti@amb.org
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#
+On Load Options Check Box
+
+There is a toggle button in this check box:
+
+- auto lock
+   If this option is enabled, Xmcd will automatically
+   engage the caddy lock mechanism after a CD is loaded.
+   When locked, a disc cannot be ejected by pressing the
+   Eject button on the CD-ROM drive itself.  This is
+   useful to prevent someone from inadvertently ejecting
+   the disc.  The eject button will be re-enabled when
+   you quit Xmcd.
+
+   The Eject button on the Xmcd main window will still
+   function normally even when the caddy is locked.
+
+This feature may not function on certain CD-ROM
+drives, notably those that do not use a motorized
+eject mechanism.
+
+The default start-up setting of this option is
+configurable as the caddyLock parameter in the
+device-specific configuration file.

@@ -1,0 +1,68 @@
+#
+# @(#)DpLinkBtn	5.2 94/12/28
+#
+#   xmcd - Motif(tm) CD Audio Player
+#
+#   Copyright (C) 1995  Ti Kan
+#   E-mail: ti@amb.org
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#
+Link Database Entry Button
+
+Sometimes different pressings of the same CD title
+can have different enough timing to appear as different
+discs to Xmcd.  Thus, when you load a CD that is not
+the exact one that the CD Database entry was created
+with, Xmcd may not recognize it as a match to the
+database entry.
+
+When this happens, you can search the CD database
+to see if a database entry exists for this CD, and
+establish a link (or alias) to it.  Once a link has
+been established, Xmcd will recognize this CD.
+
+To search the database and establish a link, select
+the Link button.
+
+Using the link feature avoids the need for you to
+enter all the information pertaining to the disc
+again.  It also keeps the database free of duplicate
+entries (which may be different amongst each other).
+
+When you select the Link button, a CD Database directory
+selection window appears, allowing you to choose the
+search directory.  This limits the search to that specific
+directory (if your current CD Database consists of only
+one or no directory, then this step is omitted).  Another
+pop-up will then appear, consisting of a list of candidate
+CD titles found in the directory.  These discs have the
+same number of tracks as the currently loaded CD.  Select
+the desired entry to link to by choosing the appropriate
+list entry and then select the OK button.
+
+When the link is complete, the selected CD database
+entry is loaded and the CD Database Indicator in the
+main window indicator area comes on.
+
+If you do not see a matching entry, you may cancel the
+search by selecting the Cancel button, and repeat the
+search in a different CDDB directory.
+
+If you cannot find the right entry in the search, then
+this CD is not currently in the CD Database.  You can
+enter all disc/track information and add to the
+database with the Save button.

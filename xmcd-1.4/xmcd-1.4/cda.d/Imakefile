@@ -1,0 +1,115 @@
+/*
+ * @(#)Imakefile	5.10 95/02/06
+ *
+ * Imakefile for cda
+ *
+ *	cda - Command-line CD Audio Player
+ *
+ *   Copyright (C) 1995  Ti Kan
+ *   E-mail: ti@amb.org
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ */
+
+
+/**** Optional defines:  Change as you see fit. *****************************
+ *
+ * -DBSDCOMPAT
+ *	Compiling under BSD-derived or BSD-like OS
+ *
+ * -DNO_STDLIB_H
+ *	The system does not support <stdlib.h>
+ *
+ * -DNOVISUAL
+ *	Build cda without the visual (curses) mode support
+ */
+#if defined(SYSTYPE_BSD43) || defined(BSD43) || defined(BSD) || \
+    defined(FreeBSDArchitecture) || defined(OsfArchitecture) || \
+    (defined(SunArchitecture) && OSMajorVersion == 4)
+DEFINES= -DBSDCOMPAT
+#else
+#if defined(XmacIIServer)
+DEFINES= -DUSG
+#else
+DEFINES=
+#endif	/* XmacIIServer */
+#endif	/* BSD FreeBSDArchitecture OsfArchitecture SunArchitecture */
+
+
+/*
+ * Add standard and local include paths
+ */
+#if (defined(SunArchitecture) && OSMajorVersion == 4)
+STD_INCLUDES=-I/usr/5include
+#else
+#if defined(LinuxArchitecture)
+STD_INCLUDES=-I/usr/include/ncurses
+#else
+STD_INCLUDES=
+#endif	/* LinuxArchitecture */
+#endif	/* SunArchitecture */
+
+INCLUDES=-I..
+
+
+/*
+ * Add needed libraries
+ */
+#if (defined(SunArchitecture) && OSMajorVersion == 4)
+LOCAL_LIBRARIES=-L/usr/5lib -lcurses
+#else
+#if defined(LinuxArchitecture)
+LOCAL_LIBRARIES=-lncurses
+#else
+#if defined(FreeBSDArchitecture)
+LOCAL_LIBRARIES=-lncurses -lmytinfo
+#else
+#if defined(ultrix) || defined(__ultrix)
+LOCAL_LIBRARIES=-lcursesX
+#else
+LOCAL_LIBRARIES=-lcurses
+#endif	/* ultrix */
+#endif	/* FreeBsdArchitecture */
+#endif	/* LinuxArchitecture */
+#endif	/* SunArchitecture */
+
+
+/*
+ * C Source files
+ */
+SRCS=	cda.c \
+	visual.c
+
+
+/*
+ * Objects to build cda
+ */
+OBJS=	cda.o \
+	visual.o \
+	../common.d/libutil.a \
+	../libdi.d/libdi.a
+
+
+/*
+ * Build rule for cda
+ */
+#ifdef InstallProgram
+#undef InstallProgram
+#define InstallProgram(program, dest)
+#endif
+ComplexProgramTarget(cda)
+
+

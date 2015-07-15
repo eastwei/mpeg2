@@ -1,0 +1,482 @@
+.\"
+.\" @(#)xmcd.man	5.4 94/12/28
+.\"
+.\"   xmcd - Motif(tm) CD Audio Player
+.\"
+.\"   Copyright (C) 1995  Ti Kan
+.\"   E-mail: ti@amb.org
+.\"
+.\"   This program is free software; you can redistribute it and/or modify
+.\"   it under the terms of the GNU General Public License as published by
+.\"   the Free Software Foundation; either version 2 of the License, or
+.\"   (at your option) any later version.
+.\"
+.\"   This program is distributed in the hope that it will be useful,
+.\"   but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"   GNU General Public License for more details.
+.\"
+.\"   You should have received a copy of the GNU General Public License
+.\"   along with this program; if not, write to the Free Software
+.\"   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+.\"
+.TH XMCD 1 "1 January 1995" "v1.4"
+
+.SH "NAME"
+xmcd \- CD digital audio player utility for X11/Motif
+
+.SH "SYNOPSIS"
+.B xmcd
+.nh
+[\fItoolkitoption ...] [-\fIdev\fP device] [-\fIdebug\fP]
+[-\fIc\fP device] [-\fIX\fP] [-\fIo\fP]
+
+.SH "DESCRIPTION"
+.I Xmcd
+is a program that allows the use of the CD-ROM drive as
+a full-featured stereo compact-disc player for the X window system.
+See
+.I cda(1)
+for the command-line CD player.
+.I xmcd
+and
+.I cda
+uses the same configuration and support files.
+.PP
+Most of the features found on real CD players are available in
+.I xmcd,
+such as shuffle and repeat, track programming functions,
+a numeric keypad and track warp slider for direct track access.
+Additional functions include sample play, A to B segment play,
+volume control, balance control, etc.  Several automation
+options are also available on CD load, eject, play completion
+and program exit.  A Channel Routing feature allow you to
+select from several stereo or mono routing options.  The
+volume control slider taper characteristics can also be
+altered.
+.PP
+A built-in CD database feature allows the CD artist/title and
+track titles, and other associated general purpose text to be
+maintained and loaded as the program is started or when a
+CD is inserted.
+.PP
+Full feature-specific pop-up help is available for
+all controls, indicators, text input fields, and lists.
+.PP
+On systems with more than one CD-ROM drive, multiple invocations of
+.I xmcd
+can be used to operate each drive independently.
+.PP
+.I Xmcd
+is designed to be easy to use, as the main window is
+purposely made to resemble a real CD player front panel.
+All other pop-up windows are also designed to be as
+intuitive as possible.  Moreover, while the use of a mouse
+is natural with
+.I xmcd,
+all functionality can also be operated via the keyboard.
+This is in conformance to the guidelines published in the
+.I OSF/Motif Style Guide
+from the Open Software Foundation.
+.PP
+The internal architecture of
+.I xmcd
+is designed to be easily portable to many UNIX operating
+system variants, and adaptable to the myriad of CD-ROM drives
+available.
+
+.SH "OPTIONS"
+All standard \fIXt Intrinsics\fR toolkit options are supported.
+In addition,
+.I xmcd
+supports the following options:
+.TP
+.I \-dev\ device
+.br
+Specifies the path name to the raw CD-ROM device.  If this option is
+not used, the default device to be used is the first
+drive set up with the
+.I xmcd
+configuration program (See below).
+.TP
+.I \-debug
+Causes verbose debugging diagnostics to be printed on \fIstderr\fR.
+.TP
+.I \-c\ device (Solaris 2 only)
+Same as the
+.I -dev
+option.
+.TP
+.I \-X (Solaris 2 only)
+Causes the exitOnEject parameter to be set to True.
+.TP
+.I \-o (Solaris 2 only)
+This option has no effect.
+.PP
+The
+.I -c, -X
+and
+.I -o
+options are provided only on the Solaris 2 platform
+for compatibility with the
+.I action_workman.so
+auto-startup program, running under the Solaris 2 Volume Manager.
+See the README file in the
+.I xmcd
+distribution about configuring
+.I xmcd
+for the Solaris 2 Volume Manager.
+
+.SH "X RESOURCES"
+.I Xmcd
+has many adjustable X resources to customize its look and feel, as well
+as its behavior.  Notably, the colors of virtually every feature on
+\fIxmcd\fP's windows can be changed, as well as the text fonts.  All
+text labels can also be changed (for example, to another language).
+.PP
+There are too many resources to list here, but the resource names
+and their defaults (plus descriptive comments) can be found in the
+\fBLIBDIR\fI/app-defaults/XMcd\fR
+file (where LIBDIR is typically \fI/usr/lib/X11\fP).
+It is not recommended
+that you change values in the \fBLIBDIR\fI/app-defaults/XMcd\fR file,
+unless you want the changes to be forced upon all users of
+.I xmcd
+on the system.  Instead, make a copy of this file, change the copy as you
+see fit, then place it in your home directory.  Your custom resource
+settings will then override the defaults when
+.I xmcd
+is subsequently started.  Alternatively, you may also place specific
+resources you wish to override in the
+.I .Xdefaults
+file in your home directory.
+
+.SH "DEVICE CONFIGURATION"
+The X resources described in the previous section affect the
+general appearance and behavior of
+.I xmcd.
+There are two additional configuration files which are used
+to adapt
+.I xmcd
+to your site requirements.  The first of these contain
+common parameters, and the second contain
+configurable parameters that must vary on a
+per-drive basis.  For example, in some cases
+.I xmcd
+must operate the drive differently depending upon the brand
+and model of the drive.  Thus, there must be a separate
+configuration file for these parameters \fIper-device\fP.
+The common parameters file is \fBXMCDLIB\fI/config/common.cfg\fP
+and the device-specific parameters file is
+\fBXMCDLIB\fI/config/\fBDEVICE\fR
+(where XMCDLIB is typically \fI/usr/lib/X11/xmcd\fP and DEVICE is
+the base name of the raw device special file for the CD-ROM drive
+; e.g., \fI/usr/lib/X11/xmcd/config/rcd0\fP).
+A configuration program \fBXMCDLIB\fI/config/configure.sh\fR
+is provided to make maintaining these configuration
+file easy (Note: on SCO systems the configuration program can
+also be invoked as "\fImkdev xmcd\fP").
+.PP
+You should always use the configuration program to set the
+configuration parameters when installing
+.I xmcd
+for the first time, or when the CD-ROM hardware configuration has
+changed.  If this is not done then
+.I xmcd
+will probably not operate correctly with your CD-ROM drive.
+.PP
+.B WARNING:
+If
+.I xmcd
+is not correctly configured, you may cause
+.I xmcd
+to deliver commands that are not supported by your CD-ROM drive.
+Under some environments this may lead to system hang or crash.
+.PP
+You can override some of the device-specific configuration parameters
+by adding your own configuration files.
+.I Xmcd
+will also look in the
+\fBHOME\fI/.xmcdcfg/common.cfg\fR and
+\fBHOME\fI/.xmcdcfg/\fBDEVICE\fR files for
+common and device-specific parameters (where HOME is your home
+directory and DEVICE is as specified above).  Parameters found in
+this file will override the system defaults (except those
+parameters that cannot be overridden; see the comments in the
+\fBXMCDLIB\fI/config/device.cfg\fR for details).
+
+.SH "USING XMCD"
+The basic functions of
+.I xmcd
+are designed to operate the same way as on a real stereo CD player.
+The pictorial symbols used on the main window buttons are intended
+to illustrate the function in a non-language-specific manner.  You
+can also change all main window buttons to display a text label
+instead of the pictorial symbols, by clicking the \fBdisplay\fP
+check-box button (the "A" symbol enclosed in a box) located at the
+upper left hand corner of the main window.
+.PP
+The CD database and track programming functions are operated
+via the CD Database/Track Program Editor pop-up subwindow.
+You activate the subwindow by pressing the \fBcddb/prog\fP button
+(file cabinet symbol) on the main window (See "CD DATABASE" below).
+.PP
+There will not be a per-item description of all the features,
+because full on-line help is available (See "ONLINE HELP" below).
+
+.SH "ONLINE HELP"
+For general information about
+.I xmcd,
+click the \fBhelp\fP (question mark symbol) button on the
+.I xmcd
+main window.  You can also get specific help information
+about each button, control, indicator, text entry area,
+selection list by positioning the mouse cursor over the
+desired item, then clicking the third mouse button.
+A pop-up window will appear, containing the relevant
+help text.
+
+.SH "TRACK PROGRAMMING"
+You can program
+.I xmcd
+to play only certain tracks, in a custom sequence.
+To do so, invoke the CD Database window (by pressing the
+.B cddb/prog
+button on the main window).  Select the desired track by clicking on
+the entry in the
+.B Track list,
+and click the
+.B Add
+button to add to the play sequence.  Notice that the track number
+appears in the
+.B Play sequence
+text field.  You can also type the track numbers, separated with
+commas, directly in the
+.B Play sequence
+field.  Repeat until all desired tracks have been entered,
+then press the
+.B Play/Pause
+button (on the main window) to start the program play.
+.PP
+When a program sequence is defined, the
+.B prog
+indicator in the main window display area "illuminates".
+To erase the program sequence, press the
+.B Clear
+button on the CD Database/Program Editor window.
+
+.SH "CD DATABASE"
+The CD Database feature of
+.I xmcd
+allows you to enter the CD artist/title, track titles, other
+free-form text (such as band information, lyrics, etc.) associated
+with the disc and tracks, and a track play program.  After this
+information is typed in and saved to a database file, it will
+automatically appear on the
+.I xmcd
+CD Database window when the same CD is inserted again.
+.PP
+You must perform a "save" operation (press the
+.B Save
+button) after typing in the database information before ejecting
+the CD or exiting, or the information will be lost.  If this is
+the first time this CD database entry is being stored, you will
+be asked to select a category (rock, classical, jazz, etc.) under
+which to classify the CD.  The category is used by
+.I xmcd
+to determine the actual directory in the filesystem to write
+the database file.
+.PP
+Once the database information has been saved, the
+.B cddb
+indicator on the
+.I xmcd
+main window display area "illuminates".
+.PP
+You must type the CD information into the database because the
+CD's table of contents (TOC) contains only the number of tracks and
+the starting address of each track, but not the actual disc
+and track titles.
+.PP
+The CD database window should prove to be intuitive to use.
+You may use the on-line help system to obtain specific help
+information about the various buttons and items.
+.PP
+The CD database information is stored in text files, one per CD,
+in a designated directory (category).  The path of this
+directory is \fBXMCDLIB\fI/cddb/\fBCATEGORY\fR, where XMCDLIB
+is the directory specified by the XMcd.libdir resource, and
+CATEGORY is the category name selected when
+.B Save
+is performed.  See the description of XMCD_DBPATH in the
+ENVIRONMENT section below.
+.PP
+You may view the list of directories that
+.I xmcd
+will search for CD database files by pressing the
+.B About...
+button and viewing the pop-up information window.
+.PP
+The file name of each CD database entry is a hexadecimal representation
+of a special "magic" number computed by
+.I xmcd
+based on the number of tracks, track timings, and other available
+information about this CD.  This method is used because there is
+no reliable unique CD identifier to be found on the CD
+itself (the CD standard allows for a readable IPC/barcode but
+very few CDs actually contain such information).
+.PP
+Since different pressings of the same CD may sometimes contain slightly
+different track timings, the resultant magic number computed by
+.I xmcd
+on these CDs will be different.  Thus, if you load a CD that is not
+the same one that a CD database entry was created with (but is
+actually the same CD title),
+.I xmcd
+may not recognize it and display the database information
+automatically when you insert the CD.  In this event, you can
+search the CD database and find the appropriate entry, and establish
+a "link" to it.  To do so, press the
+.B Link
+button, and select the appropriate category on the popup window.
+.I Xmcd
+will then present another pop-up window containing a list of all
+CD database entries in the specified category (that has the same
+number of tracks as the currently inserted disc).  Select the
+appropriate entry and a link will be made in the CD database.
+.PP
+The
+.B Link
+feature alleviates the need to type in CD database information again
+and avoids duplicate CD database entries.
+.PP
+In very rare occasions it is possible that the magic number of a CD
+conflicts with that of another.  This is a problem that will be addressed
+in a future release of
+.I xmcd.
+.PP
+A master
+.I xmcd
+CD database of thousands of CD titles is available for Internet
+anonymous FTP.  See the README file of your current
+.I xmcd
+distribution for details.  You are encouraged to contribute to
+this database by sending CD database entries (that you typed in)
+to the archive.  The master CD database is updated periodically
+with new user-contributed entries.  This version of
+.I xmcd
+makes CD database contribution easier with the
+.B Send
+button on the CD database/Track Program Editor pop-up subwindow.
+Pressing this button causes the CD database entry (associated
+with the currently loaded CD) to be mailed to the
+.I xmcd
+CD database archive maintainer.
+You should use this feature only if your computer is configured
+to send Internet electronic mail.
+
+.SH "ENVIRONMENT"
+Several environment variables are currently recognized by
+.I xmcd,
+and are described as follows:
+.IP \fBXMCD_LIBDIR\fR
+This is used to override the XMcd.libdir resource.  This parameter
+is the directory path under which
+.I xmcd's
+configuration files, help files, and CD database files are located.
+The default value of XMCD_LIBDIR on most systems
+is \fI/usr/lib/X11/xmcd\fR.
+.IP \fBXMCD_DBPATH\fR
+This is used to override the \fBdbdirs\fP common configuration parameter,
+which is a list of CD database category directories to be used under
+\fBXMCDLIB\fI/cddb\fR (where XMCDLIB is the directory root
+specified by the XMcd.libdir resource or the XMCD_LIBDIR
+environment variable).
+.sp
+.in +4
+\fBrock:classical:jazz:newage:soundtrack:misc\fR
+.in -4
+.sp
+This string will cause
+.I xmcd
+to search the following directories for CD database files:
+.sp
+.in +4
+\fBXMCDLIB\fI/cddb/rock\fR
+.br
+\fBXMCDLIB\fI/cddb/classical\fR
+.br
+\fBXMCDLIB\fI/cddb/jazz\fR
+.br
+etc.
+.in -4
+.sp
+You may also specify absolute path names in the XMCD_DBPATH
+entries.  Example:
+.sp
+.in +4
+\fBrock:classical:/usr/john/industrial:/usr/john/techno\fR
+.in -4
+.IP \fBHOME\fR
+This is used to determine your home directory.  If HOME is not
+defined, then
+.I xmcd
+tries to obtain it from the \fI/etc/passwd\fR file.  The home
+directory path is used by
+.I xmcd
+to locate the \fI.xmcdcfg\fR directory.
+
+.SH "NOTES"
+Not all CD-ROM drives support all features that appear on
+.I xmcd.
+For example, most SCSI-1 drives do not support a software-driven
+volume control.  On these drives the
+.I xmcd
+volume control slider may have no effect, or in some cases it is
+made to function as a mute control (i.e., it will snap to the
+full-off or full-on positions only).  Similarly, the \fBcaddy lock\fP,
+\fBeject\fP and \fBindex search\fP buttons found on
+.I xmcd
+may not have any effect on drives that do not support the
+appropriate functionality.
+
+.SH "FILES"
+$HOME/.xmcdcfg/\(**
+.br
+XMCDLIB/cddb/\(**
+.br
+XMCDLIB/config/configure.sh
+.br
+XMCDLIB/config/common.cfg
+.br
+XMCDLIB/config/device.cfg
+.br
+XMCDLIB/config/.tbl/\(**
+.br
+XMCDLIB/config/\(**
+.br
+XMCDLIB/help/\(**
+.br
+LIBDIR/app-defaults/XMcd
+.br
+BINDIR/xmcd
+.br
+MANDIR/xmcd.1
+.br
+/tmp/.cdaudio/\(**
+
+.SH "SEE ALSO"
+cda(1), wm2xmcd(1), X(1).
+
+.SH "AUTHOR"
+Ti Kan (\fIti@amb.org\fR)
+.br
+AMB Research Laboratories, Sunnyvale, CA, U.S.A.
+.PP
+.I Xmcd
+also contains code contributed by several dedicated individuals.
+See the README file in the
+.I xmcd
+distribution for information.
+.PP
+Comments, suggestions, and bug reports are always welcome.

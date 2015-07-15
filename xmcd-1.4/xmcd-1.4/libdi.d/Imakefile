@@ -1,0 +1,128 @@
+/*
+ * @(#)Imakefile	5.6 95/01/22
+ *
+ * Imakefile for libdi
+ *
+ *	libdi - CD Audio Player Device Interface Library
+ *
+ *   Copyright (C) 1995  Ti Kan
+ *   E-mail: ti@amb.org
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ */
+
+
+/*
+ * If your local X configuration is broken, you may need to muck with
+ * the following RANLIB= lines.
+ * On most System V platforms RANLIB should be set to /bin/true.
+ * On BSD-derived systems RANLIB should be set to ranlib.
+ */
+#if defined(DoRanlibCmd) && (DoRanlibCmd == NO)
+RANLIB= /bin/true
+#endif
+
+
+/**** Optional defines:  Change as you see fit. *****************************
+ *
+ * -BSDCOMPAT
+ *	Compiling under BSD-derived or BSD-like OS.
+ *
+ * -DSOL2_RSENSE
+ *	Whether to include code that makes use of the auto request-sense
+ *	feature in Solaris 2.2 or later.  This option is unused under
+ *	other OS platforms.
+ *
+ * -DOEM_CDROM
+ *	Define this if you have one of those strange OEM SCSI CD-ROM
+ *	drives that identify themselves as a hard disk (see the FAQ file).
+ *
+ * -DDEMO_ONLY
+ *	Build a simulated, demo-only version of libdi.
+ */
+#if defined(SYSTYPE_BSD43) || defined(BSD43) || defined(BSD) || \
+    defined(__FreeBSD__) || defined(OsfArchitecture) || \
+    (defined(SunArchitecture) && OSMajorVersion == 4)
+DEFINES= -DBSDCOMPAT
+#else
+DEFINES=
+#endif
+
+/*
+ * Add local include path
+ */
+INCLUDES=-I..
+
+/*
+ * C Source files
+ */
+SRCS=	libdi.c \
+	scsipt.c \
+	os_aix.c \
+	os_aux.c \
+	os_dec.c \
+	os_dgux.c \
+	os_frbsd.c \
+	os_hpux.c \
+	os_irix.c \
+	os_linux.c \
+	os_odt.c \
+	os_sun.c \
+	os_svr4.c \
+	os_demo.c \
+	os_cdsim.c \
+	vu_chin.c \
+	vu_hita.c \
+	vu_nec.c \
+	vu_pion.c \
+	vu_sony.c \
+	vu_tosh.c \
+	slioc.c
+
+/*
+ * Objects files
+ */
+OBJS=	libdi.o \
+	scsipt.o \
+	os_aix.o \
+	os_aux.o \
+	os_dec.o \
+	os_dgux.o \
+	os_frbsd.o \
+	os_hpux.o \
+	os_irix.o \
+	os_linux.o \
+	os_odt.o \
+	os_sun.o \
+	os_svr4.o \
+	os_demo.o \
+	os_cdsim.o \
+	vu_chin.o \
+	vu_hita.o \
+	vu_nec.o \
+	vu_pion.o \
+	vu_sony.o \
+	vu_tosh.o \
+	slioc.o
+
+
+/*
+ * Build rule for the Device Interface Library
+ */
+NormalLibraryTarget(di,$(OBJS))
+DependTarget()
+
+

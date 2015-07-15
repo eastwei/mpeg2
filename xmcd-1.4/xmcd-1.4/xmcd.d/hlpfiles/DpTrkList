@@ -1,0 +1,56 @@
+#
+# @(#)DpTrkList	5.2 94/12/28
+#
+#   xmcd - Motif(tm) CD Audio Player
+#
+#   Copyright (C) 1995  Ti Kan
+#   E-mail: ti@amb.org
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#
+Track List
+
+This list shows the tracks available on the currently
+loaded CD.  Each track entry consists of the track number,
+the time (see "Time Display Selector"), and the title of
+the track.
+
+If the currently loaded CD does not have an associated
+CD Database entry, or if the CDDB entry does not
+contain any title information for this track, then "??"
+will be shown in the title portion.
+
+If audio playback is currently in progress, the track
+entry in the list is shown in bold font.
+
+You can choose a track by clicking pointer button 1 on
+the desired track, causing the track entry to be shown
+in reverse-video.  Once chosen, you can add this track
+to the program play sequence ("Add To Program"), or pop
+up the associated Extended Track Information window
+("Extended Track Information Button").
+
+If you click pointer button 1 on an already chosen
+track, it is un-chosen.
+
+Double-clicking a track selection has the equivalent
+effect as entering the chosen track as the only track
+in the program, and starting the play sequence.
+
+You can also use the arrow keys to traverse the list.
+Pressing the space bar is equivalent to clicking the
+pointer button 1, and pressing the Enter or Return key is
+equivalent to double- clicking the pointer button 1.

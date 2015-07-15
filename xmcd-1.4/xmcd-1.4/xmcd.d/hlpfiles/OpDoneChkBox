@@ -1,0 +1,42 @@
+#
+# @(#)OpDoneChkBox	5.2 94/12/28
+#
+#   xmcd - Motif(tm) CD Audio Player
+#
+#   Copyright (C) 1995  Ti Kan
+#   E-mail: ti@amb.org
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#
+On Done Options Check Box
+
+There is one toggle button in this check box:
+
+- auto eject
+   With this option, the CD will eject when audio
+   playback is "done".  Audio playback is "done"
+   when a CD has played to the end, or if a shuffle
+   sequence/play program has completed.  Pressing
+   the Stop button during playback will stop the
+   CD, but is not considered "done" for this purpose.
+   The playback will never be "done" as long as the
+   Repeat mode is enabled.  This option will work
+   only if the CD-ROM drive supports software-
+   controlled caddy eject.
+
+The default start-up setting of this options is
+configured via the ejectOnDone parameter in the
+device-specific configuration files.

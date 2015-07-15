@@ -1,0 +1,13 @@
+To create a realtime MPEG-I video player that operates
+on its own and without any Motif extensions, edit
+the Makefile and remove the -DSYSTEM_PLAY flag.
+Compile and copy to mpeg_playRT. Make sure you
+put things back before you generate the true
+mpeg_play2 executable. Use
+
+mpeg_playRT -realtime file
+
+Have fun,
+Jim Boucher
+(jboucher@flash.bu.edu)
+
